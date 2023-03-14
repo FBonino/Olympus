@@ -7,19 +7,21 @@ type Config struct {
 	Port string `mapstructure:"PORT"`
 }
 
-func LoadConfig(path string) (config Config, err error) {
+func LoadConfig(path string) (Config, error) {
+	var config Config
+
 	viper.AddConfigPath(path)
 	viper.SetConfigType("env")
 	viper.SetConfigName("app")
 	viper.AutomaticEnv()
 
-	err = viper.ReadInConfig()
+	err := viper.ReadInConfig()
 
 	if err != nil {
-		return
+		return config, err
 	}
 
 	err = viper.Unmarshal(&config)
 
-	return
+	return config, err
 }
