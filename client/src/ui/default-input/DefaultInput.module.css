@@ -1,0 +1,26 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-bottom: 2rem;
+}
+
+.label {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.input {
+  padding: 0.5rem;
+  color: var(--font-color);
+  background-color: var(--primary-color);
+  border-radius: 0.2rem;
+  border: none;
+  font-size: 15px;
+}
+
+.input:focus {
+  outline: none;
+}
