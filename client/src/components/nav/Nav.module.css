@@ -1,8 +1,11 @@
 .container {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
   height: 100%;
   width: fit-content;
-  padding: 1.5rem;
+  box-sizing: border-box;
+  padding: 1rem 0.6rem;
   background-color: var(--primary-color);
 }

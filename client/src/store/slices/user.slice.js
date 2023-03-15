@@ -21,7 +21,7 @@ const userSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(login.fulfilled, (state, { payload }) => {
-        return payload
+        return { ...payload, signedin: true }
       })
       .addCase(login.rejected, () => {
         throw Error("Username/Email or Password is wrong!")

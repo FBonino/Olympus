@@ -1,6 +1,6 @@
 import React from "react";
 import Nav from "../../components/nav/Nav";
-import style from "./Home.module.css"
+import style from "./Home.module.css";
 
 const Home = () => {
   return (

@@ -1,0 +1,36 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  transition: 350ms;
+  position: relative;
+  border: 1px solid var(--bg-color);
+  cursor: pointer;
+}
+
+.container:hover {
+  border-radius: 0.6rem;
+  border-color: var(--bg-color);
+}
+
+.container:hover>.image {
+  border-radius: 0.6rem;
+}
+
+.image {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  transition: 350ms;
+}
+
+.status {
+  border-radius: 50%;
+  height: 0.65rem;
+  width: 0.65rem;
+  position: absolute;
+  bottom: -7%;
+  right: -5%;
+  border: 3px solid var(--primary-color);
+}
