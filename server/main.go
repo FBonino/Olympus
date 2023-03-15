@@ -28,8 +28,10 @@ var (
 	userService services.UserService
 
 	AuthController controllers.AuthController
+	UserController controllers.UserController
 
 	AuthRouteController routes.AuthRouteController
+	UserRouteController routes.UserRouteController
 )
 
 func init() {
@@ -62,9 +64,11 @@ func init() {
 
 	// Controllers
 	AuthController = controllers.NewAuthController(authService, userService)
+	UserController = controllers.NewUserController(userService)
 
 	// Routes
 	AuthRouteController = routes.NewAuthRouteController(AuthController)
+	UserRouteController = routes.NewUserRouteController(UserController)
 
 	server = gin.Default()
 }
@@ -74,6 +78,8 @@ func main() {
 	corsConfig.AllowOrigins = []string{"http://localhost:3000"}
 
 	server.Use(cors.New(corsConfig))
+
+	server.Static("/uploads", "./uploads")
 
 	config, err := configs.LoadConfig(".")
 
@@ -87,7 +93,8 @@ func main() {
 		ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": "ok"})
 	})
 
-	AuthRouteController.AuthRoute(router, userService)
+	AuthRouteController.AuthRoute(router)
+	UserRouteController.UserRoute(router)
 
 	log.Fatal(server.Run(":" + config.Port))
 }

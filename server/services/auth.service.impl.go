@@ -31,7 +31,7 @@ func (as *AuthServiceImpl) Signup(signupInput *models.SignupInput) (*models.User
 		ID:           uuid.NewGen().NewV4().String(),
 		Username:     signupInput.Username,
 		Email:        signupInput.Email,
-		Avatar:       "",
+		Avatar:       "default-avatar.png",
 		Password:     hashedPassword,
 		Status:       0,
 		CustomStatus: "",
