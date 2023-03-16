@@ -13,12 +13,12 @@ import (
 )
 
 type AuthServiceImpl struct {
-	userCollection *mongo.Collection
-	ctx            context.Context
+	db  *mongo.Database
+	ctx context.Context
 }
 
-func NewAuthService(userCollection *mongo.Collection, ctx context.Context) AuthService {
-	return &AuthServiceImpl{userCollection, ctx}
+func NewAuthService(db *mongo.Database, ctx context.Context) AuthService {
+	return &AuthServiceImpl{db, ctx}
 }
 
 func (as *AuthServiceImpl) Signup(signupInput *models.SignupInput) (*models.User, error) {
@@ -39,13 +39,15 @@ func (as *AuthServiceImpl) Signup(signupInput *models.SignupInput) (*models.User
 		UpdatedAt:    now,
 	}
 
-	res, err := as.userCollection.InsertOne(as.ctx, &user)
+	usersCollection := as.db.Collection("users")
+
+	res, err := usersCollection.InsertOne(as.ctx, &user)
 
 	if err != nil {
 		return nil, err
 	}
 
-	_, err = as.userCollection.Indexes().CreateMany(as.ctx, []mongo.IndexModel{
+	_, err = usersCollection.Indexes().CreateMany(as.ctx, []mongo.IndexModel{
 		{
 			Keys: bson.M{"username": 1}, Options: options.Index().SetUnique(true),
 		},
@@ -58,7 +60,7 @@ func (as *AuthServiceImpl) Signup(signupInput *models.SignupInput) (*models.User
 		return nil, err
 	}
 
-	if err = as.userCollection.FindOne(as.ctx, bson.M{"_id": res.InsertedID}).Decode(&newUser); err != nil {
+	if err = usersCollection.FindOne(as.ctx, bson.M{"_id": res.InsertedID}).Decode(&newUser); err != nil {
 		return nil, err
 	}
 

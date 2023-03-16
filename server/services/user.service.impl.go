@@ -10,12 +10,12 @@ import (
 )
 
 type UserServiceImpl struct {
-	userCollection *mongo.Collection
-	ctx            context.Context
+	db  *mongo.Database
+	ctx context.Context
 }
 
-func NewUserService(userCollection *mongo.Collection, ctx context.Context) UserService {
-	return &UserServiceImpl{userCollection, ctx}
+func NewUserService(db *mongo.Database, ctx context.Context) UserService {
+	return &UserServiceImpl{db, ctx}
 }
 
 func (us *UserServiceImpl) FindUserByID(id string) (*models.User, error) {
@@ -23,7 +23,7 @@ func (us *UserServiceImpl) FindUserByID(id string) (*models.User, error) {
 
 	query := bson.M{"_id": id}
 
-	err := us.userCollection.FindOne(us.ctx, query).Decode(&user)
+	err := us.db.Collection("users").FindOne(us.ctx, query).Decode(&user)
 
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
@@ -45,7 +45,7 @@ func (us *UserServiceImpl) FindUserByIdentifier(identifier string) (*models.User
 		},
 	}
 
-	err := us.userCollection.FindOne(us.ctx, query).Decode(&user)
+	err := us.db.Collection("users").FindOne(us.ctx, query).Decode(&user)
 
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
@@ -67,7 +67,7 @@ func (us *UserServiceImpl) UpdateAvatar(id string, avatar string) error {
 		},
 	}
 
-	_, err := us.userCollection.UpdateByID(us.ctx, id, update)
+	_, err := us.db.Collection("users").UpdateByID(us.ctx, id, update)
 
 	return err
 }

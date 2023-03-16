@@ -2,6 +2,8 @@ package routes
 
 import (
 	"server/controllers"
+	"server/middlewares"
+	"server/services"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,8 +16,8 @@ func NewUserRouteController(userController controllers.UserController) UserRoute
 	return UserRouteController{userController}
 }
 
-func (rc *UserRouteController) UserRoute(rg *gin.RouterGroup) {
+func (rc *UserRouteController) UserRoute(rg *gin.RouterGroup, userService services.UserService) {
 	router := rg.Group("/user")
 
-	router.PUT("/:id/avatar", rc.userController.UpdateAvatar)
+	router.PUT("/avatar", middlewares.DeserializeSession(userService), rc.userController.UpdateAvatar)
 }

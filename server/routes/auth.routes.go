@@ -2,6 +2,8 @@ package routes
 
 import (
 	"server/controllers"
+	"server/middlewares"
+	"server/services"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,9 +16,11 @@ func NewAuthRouteController(authController controllers.AuthController) AuthRoute
 	return AuthRouteController{authController}
 }
 
-func (rc *AuthRouteController) AuthRoute(rg *gin.RouterGroup) {
+func (rc *AuthRouteController) AuthRoute(rg *gin.RouterGroup, userService services.UserService) {
 	router := rg.Group("/auth")
 
-	router.POST("/signup", rc.authController.Signup)
 	router.POST("/login", rc.authController.Login)
+	router.POST("/logout", rc.authController.Logout)
+	router.POST("/signup", rc.authController.Signup)
+	router.GET("/auto-login", middlewares.DeserializeSession(userService), rc.authController.AutoLogin)
 }

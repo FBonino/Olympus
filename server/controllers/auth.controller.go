@@ -7,6 +7,7 @@ import (
 	"server/utils"
 	"strings"
 
+	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -70,6 +71,26 @@ func (ac *AuthController) Login(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": "Invalid email or Password"})
 		return
 	}
+
+	session := sessions.Default(ctx)
+	session.Options(sessions.Options{Secure: true})
+	session.Options(sessions.Options{HttpOnly: true})
+	session.Set("id", user.ID)
+	session.Save()
+
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "user": models.UserFilteredResponse(user)})
+}
+
+func (ac *AuthController) Logout(ctx *gin.Context) {
+	session := sessions.Default(ctx)
+	session.Clear()
+	session.Save()
+
+	ctx.JSON(http.StatusOK, gin.H{"status": "success"})
+}
+
+func (ac *AuthController) AutoLogin(ctx *gin.Context) {
+	user := ctx.MustGet("user").(*models.User)
 
 	ctx.JSON(http.StatusOK, gin.H{"status": "success", "user": models.UserFilteredResponse(user)})
 }

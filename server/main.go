@@ -11,6 +11,8 @@ import (
 	"server/services"
 
 	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/mongo/mongodriver"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -21,8 +23,8 @@ var (
 	server      *gin.Engine
 	ctx         context.Context
 	mongoclient *mongo.Client
-
-	userCollection *mongo.Collection
+	db          *mongo.Database
+	store       sessions.Store
 
 	authService services.AuthService
 	userService services.UserService
@@ -55,12 +57,11 @@ func init() {
 
 	fmt.Println("MongoDB successfully connected...")
 
-	// Collections
-	userCollection = mongoclient.Database("Olympus").Collection("users")
+	db = mongoclient.Database(config.DBName)
 
 	// Services
-	authService = services.NewAuthService(userCollection, ctx)
-	userService = services.NewUserService(userCollection, ctx)
+	authService = services.NewAuthService(db, ctx)
+	userService = services.NewUserService(db, ctx)
 
 	// Controllers
 	AuthController = controllers.NewAuthController(authService, userService)
@@ -70,16 +71,22 @@ func init() {
 	AuthRouteController = routes.NewAuthRouteController(AuthController)
 	UserRouteController = routes.NewUserRouteController(UserController)
 
+	// Sessions
+	store = mongodriver.NewStore(db.Collection("sessions"), 21600, true, []byte(config.SessionsSecret))
+
 	server = gin.Default()
 }
 
 func main() {
 	corsConfig := cors.DefaultConfig()
 	corsConfig.AllowOrigins = []string{"http://localhost:3000"}
+	corsConfig.AllowCredentials = true
 
 	server.Use(cors.New(corsConfig))
 
 	server.Static("/uploads", "./uploads")
+
+	server.Use(sessions.Sessions("SESSIONID", store))
 
 	config, err := configs.LoadConfig(".")
 
@@ -93,8 +100,8 @@ func main() {
 		ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": "ok"})
 	})
 
-	AuthRouteController.AuthRoute(router)
-	UserRouteController.UserRoute(router)
+	AuthRouteController.AuthRoute(router, userService)
+	UserRouteController.UserRoute(router, userService)
 
 	log.Fatal(server.Run(":" + config.Port))
 }
