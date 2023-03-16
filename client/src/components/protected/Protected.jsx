@@ -4,10 +4,11 @@ import { Outlet, useNavigate } from "react-router-dom";
 
 const Protected = () => {
   const navigate = useNavigate()
-  const { signedin } = useSelector(state => state.user)
+  const user = useSelector(state => state.user)
+
 
   useEffect(() => {
-    if (!signedin) navigate("/auth")
+    if (!user.signedin) navigate("/auth")
   })
 
   return (

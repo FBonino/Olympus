@@ -6,17 +6,29 @@ export const login = createAsyncThunk("user/login", async input => {
   return user
 })
 
+export const logout = createAsyncThunk("user/logout", async () => {
+  const data = await authAPI.logout()
+  return data
+})
+
+export const autoLogin = createAsyncThunk("user/autoLogin", async input => {
+  const user = await authAPI.autoLogin()
+  return user
+})
+
+const initialState = {
+  id: "",
+  username: "",
+  email: "",
+  avatar: "",
+  status: "",
+  signedin: false,
+  customStatus: "",
+}
+
 const userSlice = createSlice({
   name: "user",
-  initialState: {
-    id: "",
-    username: "",
-    email: "",
-    avatar: "",
-    status: "",
-    signedin: false,
-    customStatus: "",
-  },
+  initialState,
   reducers: {},
   extraReducers: builder => {
     builder
@@ -25,6 +37,12 @@ const userSlice = createSlice({
       })
       .addCase(login.rejected, () => {
         throw Error("Username/Email or Password is wrong!")
+      })
+      .addCase(logout.fulfilled, (state, { payload }) => {
+        return initialState
+      })
+      .addCase(autoLogin.fulfilled, (state, { payload }) => {
+        return { ...payload, signedin: true }
       })
   }
 })

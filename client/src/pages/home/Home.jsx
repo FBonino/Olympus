@@ -3,6 +3,7 @@ import Nav from "../../components/nav/Nav";
 import style from "./Home.module.css";
 
 const Home = () => {
+
   return (
     <div className={style.container}>
       <Nav />

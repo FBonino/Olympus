@@ -1,4 +1,4 @@
-import api from "./configs"
+import api from "./configs";
 
 export const authAPI = {
   login: async input => {
@@ -18,5 +18,21 @@ export const authAPI = {
     })
 
     return data
+  },
+  logout: async () => {
+    const { data } = await api.request({
+      url: "/auth/logout",
+      method: "POST"
+    })
+
+    return data
+  },
+  autoLogin: async () => {
+    const { data } = await api.request({
+      url: "/auth/auto-login",
+      method: "GET"
+    })
+
+    return data.user
   }
 }
