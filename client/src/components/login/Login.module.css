@@ -43,6 +43,8 @@
 
 .hasAccount:hover {
   color: var(--secondary-color);
+  text-decoration: underline var(--secondary-color);
+  text-underline-offset: 0.25rem;
 }
 
 .title {
