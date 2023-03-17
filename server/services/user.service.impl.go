@@ -18,7 +18,7 @@ func NewUserService(db *mongo.Database, ctx context.Context) UserService {
 	return &UserServiceImpl{db, ctx}
 }
 
-func (us *UserServiceImpl) FindUserByID(id string) (*models.User, error) {
+func (us *UserServiceImpl) FindByID(id string) (*models.User, error) {
 	var user *models.User
 
 	query := bson.M{"_id": id}
@@ -35,7 +35,7 @@ func (us *UserServiceImpl) FindUserByID(id string) (*models.User, error) {
 	return user, nil
 }
 
-func (us *UserServiceImpl) FindUserByIdentifier(identifier string) (*models.User, error) {
+func (us *UserServiceImpl) FindByIdentifier(identifier string) (*models.User, error) {
 	var user *models.User
 
 	query := bson.M{

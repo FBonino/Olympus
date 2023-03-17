@@ -2,8 +2,8 @@ package services
 
 import (
 	"context"
+	"server/helpers"
 	"server/models"
-	"server/utils"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -22,10 +22,9 @@ func NewAuthService(db *mongo.Database, ctx context.Context) AuthService {
 }
 
 func (as *AuthServiceImpl) Signup(signupInput *models.SignupInput) (*models.User, error) {
-	var newUser *models.User
-
 	now := time.Now()
-	hashedPassword, _ := utils.HashPassword(signupInput.Password)
+
+	hashedPassword, _ := helpers.HashPassword(signupInput.Password)
 
 	var user models.User = models.User{
 		ID:           uuid.NewGen().NewV4().String(),
@@ -41,7 +40,7 @@ func (as *AuthServiceImpl) Signup(signupInput *models.SignupInput) (*models.User
 
 	usersCollection := as.db.Collection("users")
 
-	res, err := usersCollection.InsertOne(as.ctx, &user)
+	_, err := usersCollection.InsertOne(as.ctx, &user)
 
 	if err != nil {
 		return nil, err
@@ -60,11 +59,7 @@ func (as *AuthServiceImpl) Signup(signupInput *models.SignupInput) (*models.User
 		return nil, err
 	}
 
-	if err = usersCollection.FindOne(as.ctx, bson.M{"_id": res.InsertedID}).Decode(&newUser); err != nil {
-		return nil, err
-	}
-
-	return newUser, nil
+	return &user, nil
 }
 
 func (as *AuthServiceImpl) Login(loginInput *models.LoginInput) (*models.User, error) {

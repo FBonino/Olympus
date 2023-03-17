@@ -5,7 +5,7 @@ import (
 )
 
 type UserService interface {
-	FindUserByID(string) (*models.User, error)
-	FindUserByIdentifier(string) (*models.User, error)
+	FindByID(string) (*models.User, error)
+	FindByIdentifier(string) (*models.User, error)
 	UpdateAvatar(string, string) error
 }

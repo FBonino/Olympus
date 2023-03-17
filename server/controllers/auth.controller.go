@@ -2,23 +2,24 @@ package controllers
 
 import (
 	"net/http"
+	"server/configs"
+	"server/helpers"
 	"server/models"
 	"server/services"
-	"server/utils"
 	"strings"
 
-	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type AuthController struct {
-	authService services.AuthService
-	userService services.UserService
+	authService    services.AuthService
+	userService    services.UserService
+	sessionService services.SessionService
 }
 
-func NewAuthController(authService services.AuthService, userService services.UserService) AuthController {
-	return AuthController{authService, userService}
+func NewAuthController(authService services.AuthService, userService services.UserService, sessionService services.SessionService) AuthController {
+	return AuthController{authService, userService, sessionService}
 }
 
 func (ac *AuthController) Signup(ctx *gin.Context) {
@@ -56,7 +57,7 @@ func (ac *AuthController) Login(ctx *gin.Context) {
 		return
 	}
 
-	user, err := ac.userService.FindUserByIdentifier(input.Identifier)
+	user, err := ac.userService.FindByIdentifier(input.Identifier)
 
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
@@ -67,30 +68,48 @@ func (ac *AuthController) Login(ctx *gin.Context) {
 		return
 	}
 
-	if err = utils.VerifyPassword(user.Password, input.Password); err != nil {
+	if err = helpers.VerifyPassword(user.Password, input.Password); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": "Invalid email or Password"})
 		return
 	}
 
-	session := sessions.Default(ctx)
-	session.Options(sessions.Options{Secure: true})
-	session.Options(sessions.Options{HttpOnly: true})
-	session.Set("id", user.ID)
-	session.Save()
+	session, err := ac.sessionService.Create(user.ID)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": "Error creating session"})
+		return
+	}
+
+	config, _ := configs.LoadConfig(".")
+
+	ctx.SetCookie("SID", session.Token, config.TokenMaxAge, "/", "localhost", false, true)
 
 	ctx.JSON(http.StatusOK, gin.H{"status": "success", "user": models.UserFilteredResponse(user)})
 }
 
 func (ac *AuthController) Logout(ctx *gin.Context) {
-	session := sessions.Default(ctx)
-	session.Clear()
-	session.Save()
+	token, _ := ctx.Cookie("SID")
+
+	ac.sessionService.Delete(token)
 
 	ctx.JSON(http.StatusOK, gin.H{"status": "success"})
 }
 
 func (ac *AuthController) AutoLogin(ctx *gin.Context) {
 	user := ctx.MustGet("user").(*models.User)
+
+	token, _ := ctx.Cookie("SID")
+
+	session, err := ac.sessionService.Update(user.ID, token)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadGateway, gin.H{"status": "error", "message": err.Error()})
+		return
+	}
+
+	config, _ := configs.LoadConfig(".")
+
+	ctx.SetCookie("SID", session.Token, config.TokenMaxAge, "/", "localhost", false, true)
 
 	ctx.JSON(http.StatusOK, gin.H{"status": "success", "user": models.UserFilteredResponse(user)})
 }

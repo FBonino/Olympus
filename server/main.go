@@ -11,8 +11,6 @@ import (
 	"server/services"
 
 	"github.com/gin-contrib/cors"
-	"github.com/gin-contrib/sessions"
-	"github.com/gin-contrib/sessions/mongo/mongodriver"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -24,10 +22,10 @@ var (
 	ctx         context.Context
 	mongoclient *mongo.Client
 	db          *mongo.Database
-	store       sessions.Store
 
-	authService services.AuthService
-	userService services.UserService
+	authService    services.AuthService
+	userService    services.UserService
+	sessionService services.SessionService
 
 	AuthController controllers.AuthController
 	UserController controllers.UserController
@@ -62,17 +60,15 @@ func init() {
 	// Services
 	authService = services.NewAuthService(db, ctx)
 	userService = services.NewUserService(db, ctx)
+	sessionService = services.NewSessionService(db, ctx)
 
 	// Controllers
-	AuthController = controllers.NewAuthController(authService, userService)
+	AuthController = controllers.NewAuthController(authService, userService, sessionService)
 	UserController = controllers.NewUserController(userService)
 
 	// Routes
 	AuthRouteController = routes.NewAuthRouteController(AuthController)
 	UserRouteController = routes.NewUserRouteController(UserController)
-
-	// Sessions
-	store = mongodriver.NewStore(db.Collection("sessions"), 21600, true, []byte(config.SessionsSecret))
 
 	server = gin.Default()
 }
@@ -85,8 +81,6 @@ func main() {
 	server.Use(cors.New(corsConfig))
 
 	server.Static("/uploads", "./uploads")
-
-	server.Use(sessions.Sessions("SESSIONID", store))
 
 	config, err := configs.LoadConfig(".")
 

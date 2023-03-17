@@ -22,5 +22,5 @@ func (rc *AuthRouteController) AuthRoute(rg *gin.RouterGroup, userService servic
 	router.POST("/login", rc.authController.Login)
 	router.POST("/logout", rc.authController.Logout)
 	router.POST("/signup", rc.authController.Signup)
-	router.GET("/auto-login", middlewares.DeserializeSession(userService), rc.authController.AutoLogin)
+	router.GET("/auto-login", middlewares.DeserializeUser(userService), rc.authController.AutoLogin)
 }
