@@ -26,12 +26,15 @@ var (
 	authService    services.AuthService
 	userService    services.UserService
 	sessionService services.SessionService
+	serverService  services.ServerService
 
-	AuthController controllers.AuthController
-	UserController controllers.UserController
+	AuthController   controllers.AuthController
+	UserController   controllers.UserController
+	ServerController controllers.ServerController
 
-	AuthRouteController routes.AuthRouteController
-	UserRouteController routes.UserRouteController
+	AuthRouteController   routes.AuthRouteController
+	UserRouteController   routes.UserRouteController
+	ServerRouteController routes.ServerRouteController
 )
 
 func init() {
@@ -61,14 +64,17 @@ func init() {
 	authService = services.NewAuthService(db, ctx)
 	userService = services.NewUserService(db, ctx)
 	sessionService = services.NewSessionService(db, ctx)
+	serverService = services.NewServerService(db, ctx)
 
 	// Controllers
 	AuthController = controllers.NewAuthController(authService, userService, sessionService)
 	UserController = controllers.NewUserController(userService)
+	ServerController = controllers.NewServerController(serverService)
 
 	// Routes
 	AuthRouteController = routes.NewAuthRouteController(AuthController)
 	UserRouteController = routes.NewUserRouteController(UserController)
+	ServerRouteController = routes.NewServerRouteController(ServerController)
 
 	server = gin.Default()
 }
@@ -96,6 +102,7 @@ func main() {
 
 	AuthRouteController.AuthRoute(router, userService)
 	UserRouteController.UserRoute(router, userService)
+	ServerRouteController.ServerRoute(router, userService)
 
 	log.Fatal(server.Run(":" + config.Port))
 }

@@ -1,6 +1,9 @@
 package models
 
-import "time"
+import (
+	"server/helpers"
+	"time"
+)
 
 type User struct {
 	ID           string    `json:"id" bson:"_id"`
@@ -23,24 +26,13 @@ type UserResponse struct {
 	CustomStatus string `json:"customStatus" bson:"customStatus"`
 }
 
-func TransformStatus(status uint8) string {
-	enum := map[uint8]string{
-		0: "Offline",
-		1: "Do Not Disturb",
-		2: "Idle",
-		3: "Online",
-	}
-
-	return enum[status]
-}
-
 func UserFilteredResponse(user *User) UserResponse {
 	return UserResponse{
 		ID:           user.ID,
 		Username:     user.Username,
 		Email:        user.Email,
 		Avatar:       user.Avatar,
-		Status:       TransformStatus(user.Status),
+		Status:       helpers.TransformStatus(user.Status),
 		CustomStatus: user.CustomStatus,
 	}
 }
