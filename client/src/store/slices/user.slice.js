@@ -2,8 +2,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { authAPI } from "../../apis/auth.api";
 
 export const login = createAsyncThunk("user/login", async input => {
-  const user = await authAPI.login(input)
-  return user
+  const data = await authAPI.login(input)
+  return data
 })
 
 export const logout = createAsyncThunk("user/logout", async () => {
@@ -12,8 +12,8 @@ export const logout = createAsyncThunk("user/logout", async () => {
 })
 
 export const autoLogin = createAsyncThunk("user/autoLogin", async input => {
-  const user = await authAPI.autoLogin()
-  return user
+  const data = await authAPI.autoLogin()
+  return data
 })
 
 const initialState = {
@@ -24,6 +24,7 @@ const initialState = {
   status: "",
   signedin: false,
   customStatus: "",
+  servers: []
 }
 
 const userSlice = createSlice({

@@ -5,23 +5,18 @@ import { useDispatch } from 'react-redux';
 import { autoLogin } from './store/slices/user.slice';
 
 const App = () => {
-  const [isloading, setIsLoading] = useState(true)
   const dispatch = useDispatch()
-
-  const handleSession = async () => {
-    await dispatch(autoLogin())
-    setIsLoading(false)
-
-  }
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    handleSession()
-  })
+    dispatch(autoLogin())
+      .then(() => setIsLoading(false))
+  }, [dispatch])
 
   return (
     <div className="App">
       {
-        !isloading && <RouterProvider router={router} />
+        !isLoading && <RouterProvider router={router} />
       }
     </div>
   );

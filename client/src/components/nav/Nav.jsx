@@ -9,7 +9,11 @@ const Nav = () => {
   return (
     <div className={style.container}>
       <div className={style.subcontainer}>
-        Test
+        {
+          user.servers?.map(server =>
+            <NavButton img={server.avatar} type="server" name={server.name} key={server.id} />
+          )
+        }
       </div>
       <NavButton img={user.avatar} type="profile" status={user.status} name={user.username} />
     </div>
