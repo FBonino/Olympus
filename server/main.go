@@ -67,7 +67,7 @@ func init() {
 	serverService = services.NewServerService(db, ctx)
 
 	// Controllers
-	AuthController = controllers.NewAuthController(authService, userService, sessionService)
+	AuthController = controllers.NewAuthController(authService, userService, sessionService, serverService)
 	UserController = controllers.NewUserController(userService)
 	ServerController = controllers.NewServerController(serverService)
 

@@ -5,6 +5,7 @@ import (
 	"server/models"
 	"time"
 
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"nullprogram.com/x/uuid"
 )
@@ -70,4 +71,31 @@ func (ss *ServerServiceImpl) CreateServer(userId string, input *models.CreateSer
 	}
 
 	return &server, nil
+}
+
+func (ss *ServerServiceImpl) GetUserServers(userId string) ([]*models.Server, error) {
+	var servers []*models.Server
+
+	query := bson.M{"users._id": userId}
+
+	res, err := ss.db.Collection("servers").Find(ss.ctx, query)
+
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return []*models.Server{}, err
+		}
+		return nil, err
+	}
+
+	for res.Next(ss.ctx) {
+		var server *models.Server
+
+		err := res.Decode(&server)
+
+		if err == nil {
+			servers = append(servers, server)
+		}
+	}
+
+	return servers, nil
 }

@@ -16,10 +16,11 @@ type AuthController struct {
 	authService    services.AuthService
 	userService    services.UserService
 	sessionService services.SessionService
+	serverService  services.ServerService
 }
 
-func NewAuthController(authService services.AuthService, userService services.UserService, sessionService services.SessionService) AuthController {
-	return AuthController{authService, userService, sessionService}
+func NewAuthController(authService services.AuthService, userService services.UserService, sessionService services.SessionService, serverService services.ServerService) AuthController {
+	return AuthController{authService, userService, sessionService, serverService}
 }
 
 func (ac *AuthController) Signup(ctx *gin.Context) {
@@ -73,6 +74,8 @@ func (ac *AuthController) Login(ctx *gin.Context) {
 		return
 	}
 
+	servers, _ := ac.serverService.GetUserServers(user.ID)
+
 	session, err := ac.sessionService.Create(user.ID)
 
 	if err != nil {
@@ -84,7 +87,7 @@ func (ac *AuthController) Login(ctx *gin.Context) {
 
 	ctx.SetCookie("SID", session.Token, config.TokenMaxAge, "/", "localhost", false, true)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "user": models.UserFilteredResponse(user)})
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "user": models.UserFilteredResponse(user), "servers": servers})
 }
 
 func (ac *AuthController) Logout(ctx *gin.Context) {
@@ -97,6 +100,8 @@ func (ac *AuthController) Logout(ctx *gin.Context) {
 
 func (ac *AuthController) AutoLogin(ctx *gin.Context) {
 	user := ctx.MustGet("user").(*models.User)
+
+	servers, _ := ac.serverService.GetUserServers(user.ID)
 
 	token, _ := ctx.Cookie("SID")
 
@@ -111,5 +116,5 @@ func (ac *AuthController) AutoLogin(ctx *gin.Context) {
 
 	ctx.SetCookie("SID", session.Token, config.TokenMaxAge, "/", "localhost", false, true)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "user": models.UserFilteredResponse(user)})
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "user": models.UserFilteredResponse(user), "servers": servers})
 }
