@@ -5,7 +5,7 @@ import { BiPlus } from "react-icons/bi";
 import CreateServerForm from "../create-server-form/CreateServerForm";
 
 const NavCreateServer = () => {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
 
   const toggleModal = () => setIsOpen(!isOpen)
 
