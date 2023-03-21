@@ -1,20 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
+import NavNameModal from "../../components/nav-name-modal/NavNameModal";
 import style from "./NavButton.module.css";
 
-const NavButton = ({ img, type, status, name, handleClick }) => {
-  const statusColor = {
-    "Online": "#007000",
-    "Idle": "#ceb900",
-    "Do Not Disturb": "#8b0f0f",
-    "Offline": "#303030",
-  }
+const NavButton = ({ children, name }) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const toggleName = () => setIsOpen(!isOpen)
 
   return (
-    <div className={style.container}>
-      <img className={style.image} src={`${process.env.REACT_APP_API}/uploads/${img}`} alt="" />
-      {
-        type === "profile" && <div className={style.status} style={{ backgroundColor: statusColor[status] }} />
-      }
+    <div className={style.container} onMouseEnter={toggleName} onMouseLeave={toggleName}>
+      {children}
+      <NavNameModal isOpen={isOpen} name={name} />
     </div>
   )
 }

@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 130%;
+  background-color: rgb(19, 19, 19);
+  padding: 0.7rem;
+  width: fit-content;
+  white-space: nowrap;
+  color: var(--font-color);
+  border-radius: 0.4rem;
+}

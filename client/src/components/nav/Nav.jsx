@@ -1,21 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import NavButton from "../../ui/nav-button/NavButton";
+import CreateServer from "../create-server/CreateServer";
+import NavDMs from "../nav-dms/NavDMs";
+import NavProfile from "../nav-profile/NavProfile";
+import NavServer from "../nav-server/NavServer";
 import style from "./Nav.module.css";
 
 const Nav = () => {
   const user = useSelector(state => state.user)
+  // const [selectedServer, setSelectedServer] = useState()
 
   return (
     <div className={style.container}>
       <div className={style.subcontainer}>
+        <NavDMs />
         {
           user.servers?.map(server =>
-            <NavButton img={server.avatar} type="server" name={server.name} key={server.id} />
+            <NavServer key={server.id} id={server.id} name={server.name} avatar={server.avatar} />
           )
         }
+        <CreateServer />
       </div>
-      <NavButton img={user.avatar} type="profile" status={user.status} name={user.username} />
+      <NavProfile img={user.avatar} status={user.status} />
     </div>
   )
 }
