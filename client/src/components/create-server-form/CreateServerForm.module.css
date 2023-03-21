@@ -1,0 +1,88 @@
+.container {
+  padding: 2rem;
+  background-color: inherit;
+  border-radius: 0.5rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.upload {
+  margin: 1rem;
+  height: 5rem;
+  width: 5rem;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+}
+
+.image {
+  text-align: center;
+  display: block;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  -webkit-user-drag: none;
+}
+
+.image:hover {
+  cursor: pointer;
+}
+
+.name {
+  margin: 1rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.input {
+  margin: 0.5rem 0;
+  padding: 0.3rem;
+  width: 60%;
+  border-radius: 0.2rem;
+  font-weight: 600;
+}
+
+.input:focus {
+  outline: none;
+}
+
+.submit {
+  padding: 0.5rem;
+  background-color: var(--secondary-color);
+  border-radius: 0.5rem;
+  border: none;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  width: 40%;
+  color: var(--font-color);
+  margin: 1rem;
+}
+
+.uploadLabel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  border-radius: 50%;
+  transition: 500ms ease-in-out;
+  cursor: pointer;
+}
+
+.uploadButton {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--font-color);
+}
+
+.uploadLabel:hover {
+  background-color: var(--secondary-color);
+}

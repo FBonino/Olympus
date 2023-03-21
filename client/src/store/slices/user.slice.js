@@ -23,8 +23,7 @@ const initialState = {
   avatar: "",
   status: "",
   signedin: false,
-  customStatus: "",
-  servers: []
+  customStatus: ""
 }
 
 const userSlice = createSlice({
@@ -34,7 +33,8 @@ const userSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(login.fulfilled, (state, { payload }) => {
-        return { ...payload, signedin: true }
+        const { servers, ...user } = payload
+        return { ...user, signedin: true }
       })
       .addCase(login.rejected, () => {
         throw Error("Username/Email or Password is wrong!")
@@ -43,7 +43,8 @@ const userSlice = createSlice({
         return initialState
       })
       .addCase(autoLogin.fulfilled, (state, { payload }) => {
-        return { ...payload, signedin: true }
+        const { servers, ...user } = payload
+        return { ...user, signedin: true }
       })
   }
 })

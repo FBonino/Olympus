@@ -3,4 +3,6 @@
   justify-content: center;
   align-items: center;
   color: var(--font-color);
+  height: 100%;
+  width: 100%;
 }
