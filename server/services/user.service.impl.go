@@ -3,7 +3,6 @@ package services
 import (
 	"context"
 	"server/models"
-	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -55,19 +54,4 @@ func (us *UserServiceImpl) FindByIdentifier(identifier string) (*models.User, er
 	}
 
 	return user, nil
-}
-
-func (us *UserServiceImpl) UpdateAvatar(id string, avatar string) error {
-	now := time.Now()
-
-	update := bson.M{
-		"$set": bson.M{
-			"avatar":    avatar,
-			"updatedAt": now,
-		},
-	}
-
-	_, err := us.db.Collection("users").UpdateByID(us.ctx, id, update)
-
-	return err
 }

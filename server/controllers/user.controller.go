@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"net/http"
-	"server/models"
 	"server/services"
 
 	"github.com/gin-gonic/gin"
@@ -17,9 +16,7 @@ func NewUserController(userService services.UserService) UserController {
 	return UserController{userService}
 }
 
-func (uc *UserController) UpdateAvatar(ctx *gin.Context) {
-	user := ctx.MustGet("user").(*models.User)
-
+func (uc *UserController) UploadAvatar(ctx *gin.Context) {
 	file, err := ctx.FormFile("file")
 
 	if err != nil {
@@ -30,13 +27,6 @@ func (uc *UserController) UpdateAvatar(ctx *gin.Context) {
 	filename := uuid.NewGen().NewV4().String() + file.Filename
 
 	err = ctx.SaveUploadedFile(file, "uploads/"+filename)
-
-	if err != nil {
-		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
-		return
-	}
-
-	err = uc.userService.UpdateAvatar(user.ID, filename)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
