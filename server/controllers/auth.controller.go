@@ -3,6 +3,7 @@ package controllers
 import (
 	"net/http"
 	"server/configs"
+	"server/dtos"
 	"server/helpers"
 	"server/models"
 	"server/services"
@@ -87,7 +88,7 @@ func (ac *AuthController) Login(ctx *gin.Context) {
 
 	ctx.SetCookie("SID", session.Token, config.TokenMaxAge, "/", "localhost", false, true)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "user": models.UserFilteredResponse(user), "servers": servers})
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "user": dtos.MapUserDTO(user), "servers": dtos.MapServersDTO(servers)})
 }
 
 func (ac *AuthController) Logout(ctx *gin.Context) {
@@ -116,5 +117,5 @@ func (ac *AuthController) AutoLogin(ctx *gin.Context) {
 
 	ctx.SetCookie("SID", session.Token, config.TokenMaxAge, "/", "localhost", false, true)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "user": models.UserFilteredResponse(user), "servers": servers})
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "user": dtos.MapUserDTO(user), "servers": dtos.MapServersDTO(servers)})
 }
