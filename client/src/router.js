@@ -1,23 +1,54 @@
 import { createBrowserRouter } from "react-router-dom";
-import Protected from "./components/protected/Protected";
+import Me from "./components/me/Me";
 import Auth from "./pages/auth/Auth";
 import Home from "./pages/home/Home";
+import Servers from "./pages/servers/Servers";
+import Server from "./components/server/Server";
+import Protected from "./components/protected/Protected";
+import { serverAPI } from "./apis/server.api";
+import ErrorLoading from "./components/error-loading/ErrorLoading";
+import Channel from "./components/channel/Channel";
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
+  {
+    path: "/auth",
+    element: <Auth />
+  },
   {
     path: "/",
     element: <Protected />,
     children: [
       {
-        path: "",
-        element: <Home />
-      }
+        path: "/channels",
+        element: <Servers />,
+        children: [
+          {
+            path: "/channels/@me",
+            element: <Me />,
+          },
+          {
+            path: "/channels/:id",
+            element: <Server />,
+            loader: async ({ request, params }) => {
+              const server = await serverAPI.getServer(params.id)
+              return server
+            },
+            errorElement: <ErrorLoading />,
+            children: [
+              {
+                path: "/channels/:id/:channel",
+                element: <Channel />,
+              }
+            ]
+          }
+        ],
+      },
     ]
   },
-  {
-    path: "/auth",
-    element: <Auth />
-  }
 ])
 
 export default router

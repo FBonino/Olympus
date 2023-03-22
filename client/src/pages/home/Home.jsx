@@ -1,12 +1,13 @@
 import React from "react";
-import Nav from "../../components/nav/Nav";
+import { Link } from "react-router-dom";
 import style from "./Home.module.css";
 
 const Home = () => {
 
   return (
     <div className={style.container}>
-      <Nav />
+      <Link to="/channels/@me"> Open App </Link>
+      <Link> Register </Link>
     </div>
   )
 }
