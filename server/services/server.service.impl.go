@@ -99,3 +99,20 @@ func (ss *ServerServiceImpl) GetUserServers(userId string) ([]*models.Server, er
 
 	return servers, nil
 }
+
+func (ss *ServerServiceImpl) FindServerByID(serverId string, userId string) (*models.Server, error) {
+	var server *models.Server
+
+	query := bson.M{"users._id": userId, "_id": serverId}
+
+	err := ss.db.Collection("servers").FindOne(ss.ctx, query).Decode(&server)
+
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return &models.Server{}, err
+		}
+		return nil, err
+	}
+
+	return server, nil
+}

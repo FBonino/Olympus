@@ -20,4 +20,5 @@ func (rc *ServerRouteController) ServerRoute(rg *gin.RouterGroup, userService se
 	router := rg.Group("/server")
 
 	router.POST("", middlewares.DeserializeUser(userService), rc.serverController.CreateServer)
+	router.GET("/:id", middlewares.DeserializeUser(userService), rc.serverController.GetServer)
 }
