@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import DefaultModal from "../../ui/default-modal/DefaultModal";
 import style from "./CreateServerForm.module.css";
@@ -7,7 +7,7 @@ import { userAPI } from "../../apis/user.api";
 import { createServer } from "../../store/slices/server.slice";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 
-const CreateServerForm = ({ isOpen, handleClose }) => {
+const CreateServerForm = ({ handleClose }) => {
   const dispatch = useDispatch()
   const { username } = useSelector(state => state.user)
   const [input, setInput] = useState({ name: `${username}'s server`, avatar: "" })
@@ -31,16 +31,13 @@ const CreateServerForm = ({ isOpen, handleClose }) => {
   const onCreateServer = e => {
     e.preventDefault()
     dispatch(createServer(input))
-      .then(() => closeModal())
+      .then(() => handleClose())
   }
 
-  const closeModal = () => {
-    setInput({ name: `${username}'s server`, avatar: "" })
-    handleClose()
-  }
+  useEffect(() => () => setInput({ name: `${username}'s server`, avatar: "" }), []);
 
   return (
-    <DefaultModal isOpen={isOpen} handleClose={closeModal}>
+    <DefaultModal handleClose={handleClose}>
       <div className={style.container}>
         <h3> Create a server </h3>
         <h4> Your server is where you and your friends hang out. Make yours and start talking. </h4>

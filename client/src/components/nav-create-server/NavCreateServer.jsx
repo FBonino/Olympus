@@ -14,7 +14,9 @@ const NavCreateServer = () => {
       <div className={style.container} onClick={toggleModal}>
         <BiPlus size={28} />
       </div>
-      <CreateServerForm isOpen={isOpen} handleClose={toggleModal} />
+      {
+        isOpen && <CreateServerForm handleClose={toggleModal} />
+      }
     </NavButton>
   )
 }

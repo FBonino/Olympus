@@ -2,8 +2,8 @@ import React from "react";
 import style from "./DefaultModal.module.css";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 
-const DefaultModal = ({ isOpen, handleClose, children }) => {
-  return isOpen && (
+const DefaultModal = ({ handleClose, children }) => {
+  return (
     <>
       <div className={style.background} onClick={handleClose} />
       <div className={style.container}>

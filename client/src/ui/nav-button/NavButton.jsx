@@ -10,7 +10,9 @@ const NavButton = ({ children, name }) => {
   return (
     <div className={style.container} onMouseEnter={toggleName} onMouseLeave={toggleName}>
       {children}
-      <NavNameModal isOpen={isOpen} name={name} />
+      {
+        isOpen && <NavNameModal name={name} />
+      }
     </div>
   )
 }
