@@ -21,3 +21,5 @@ yarn-error.log*
 # go air
 .air.toml
 tmp
+
+uploads
