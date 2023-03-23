@@ -1,5 +1,5 @@
 import React from "react";
-import NavButton from "../../ui/nav-button/NavButton";
+import NavButton from "../nav-button/NavButton";
 import style from "./NavDMs.module.css";
 import { AiOutlineMessage } from "react-icons/ai";
 import { Link } from "react-router-dom";

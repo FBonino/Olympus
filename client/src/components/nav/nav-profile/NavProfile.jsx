@@ -1,5 +1,5 @@
 import React from "react";
-import NavButton from "../../ui/nav-button/NavButton";
+import NavButton from "../nav-button/NavButton";
 import style from "./NavProfile.module.css";
 
 const NavProfile = ({ img, status }) => {

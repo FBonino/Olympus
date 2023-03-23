@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import NavButton from "../../ui/nav-button/NavButton";
+import NavButton from "../nav-button/NavButton";
 import style from "./NavCreateServer.module.css";
 import { BiPlus } from "react-icons/bi";
-import CreateServerForm from "../create-server-form/CreateServerForm";
+import CreateServerForm from "../../create-server-form/CreateServerForm";
 
 const NavCreateServer = () => {
   const [isOpen, setIsOpen] = useState(false)

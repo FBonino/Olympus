@@ -4,7 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: var(--font-color);
+  color: var(--text-color);
 }
 
 .link {

@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import NavCreateServer from "../nav-create-server/NavCreateServer";
-import NavDMs from "../nav-dms/NavDMs";
-import NavProfile from "../nav-profile/NavProfile";
-import NavServer from "../nav-server/NavServer";
+import NavCreateServer from "./nav-create-server/NavCreateServer";
+import NavDMs from "./nav-dms/NavDMs";
+import NavProfile from "./nav-profile/NavProfile";
+import NavServer from "./nav-server/NavServer";
 import style from "./Nav.module.css";
 
 const Nav = () => {
@@ -15,8 +15,8 @@ const Nav = () => {
       <div className={style.subcontainer}>
         <NavDMs />
         {
-          servers.map(server =>
-            <NavServer key={server.id} id={server.id} name={server.name} avatar={server.avatar} />
+          servers.map(s =>
+            <NavServer key={s.id} id={s.id} name={s.name} avatar={s.avatar} defaultChannel={s.defaultChannel} />
           )
         }
         <NavCreateServer />

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import NavNameModal from "../../components/nav-name-modal/NavNameModal";
+import NavNameModal from "../nav-name-modal/NavNameModal";
 import style from "./NavButton.module.css";
 
 const NavButton = ({ children, name }) => {
