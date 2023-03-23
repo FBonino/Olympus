@@ -40,9 +40,9 @@ func (sc *ServerController) CreateServer(ctx *gin.Context) {
 func (sc *ServerController) GetServer(ctx *gin.Context) {
 	user := ctx.MustGet("user").(*models.User)
 
-	serverId := ctx.Param("id")
+	serverID := ctx.Param("id")
 
-	server, err := sc.serverService.FindServerByID(serverId, user.ID)
+	server, err := sc.serverService.FindServerByID(serverID, user.ID)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
@@ -50,4 +50,21 @@ func (sc *ServerController) GetServer(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{"status": "success", "server": server})
+}
+
+func (sc *ServerController) GetChannel(ctx *gin.Context) {
+	user := ctx.MustGet("user").(*models.User)
+
+	serverID := ctx.Param("id")
+
+	channelID := ctx.Param("channel")
+
+	channel, err := sc.serverService.FindChannelByID(serverID, channelID, user.ID)
+
+	if err != nil {
+		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "channel": channel})
 }

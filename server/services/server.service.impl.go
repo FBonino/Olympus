@@ -40,9 +40,10 @@ func (ss *ServerServiceImpl) CreateServer(userId string, input *models.CreateSer
 	}
 
 	var defaultTextGeneral models.Channel = models.Channel{
-		ID:   uuid.NewGen().NewV4().String(),
-		Name: "general",
-		Type: "text",
+		ID:       uuid.NewGen().NewV4().String(),
+		Name:     "general",
+		Type:     "text",
+		Messages: []models.Message{},
 	}
 
 	var defaultVoiceGeneral models.Channel = models.Channel{
@@ -52,14 +53,15 @@ func (ss *ServerServiceImpl) CreateServer(userId string, input *models.CreateSer
 	}
 
 	var server models.Server = models.Server{
-		ID:        uuid.NewGen().NewV4().String(),
-		Name:      input.Name,
-		Avatar:    avatar,
-		Roles:     []models.ServerRole{defaultRole},
-		Users:     []models.ServerUser{owner},
-		Channels:  []models.Channel{defaultTextGeneral, defaultVoiceGeneral},
-		CreatedAt: now,
-		UpdatedAt: now,
+		ID:             uuid.NewGen().NewV4().String(),
+		Name:           input.Name,
+		Avatar:         avatar,
+		Roles:          []models.ServerRole{defaultRole},
+		Users:          []models.ServerUser{owner},
+		Channels:       []models.Channel{defaultTextGeneral, defaultVoiceGeneral},
+		DefaultChannel: defaultTextGeneral.ID,
+		CreatedAt:      now,
+		UpdatedAt:      now,
 	}
 
 	serversCollection := ss.db.Collection("servers")
@@ -115,4 +117,27 @@ func (ss *ServerServiceImpl) FindServerByID(serverId string, userId string) (*mo
 	}
 
 	return server, nil
+}
+
+func (ss *ServerServiceImpl) FindChannelByID(serverID string, channelID string, userId string) (*models.Channel, error) {
+	var server *models.Server
+
+	query := bson.M{"users._id": userId, "_id": serverID}
+
+	err := ss.db.Collection("servers").FindOne(ss.ctx, query).Decode(&server)
+
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return &models.Channel{}, err
+		}
+		return nil, err
+	}
+
+	for _, channel := range server.Channels {
+		if channel.ID == channelID {
+			return &channel, nil
+		}
+	}
+
+	return &models.Channel{}, nil
 }

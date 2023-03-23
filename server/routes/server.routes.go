@@ -21,4 +21,5 @@ func (rc *ServerRouteController) ServerRoute(rg *gin.RouterGroup, userService se
 
 	router.POST("", middlewares.DeserializeUser(userService), rc.serverController.CreateServer)
 	router.GET("/:id", middlewares.DeserializeUser(userService), rc.serverController.GetServer)
+	router.GET("/:id/:channel", middlewares.DeserializeUser(userService), rc.serverController.GetChannel)
 }
