@@ -1,0 +1,71 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.nav {
+  width: 15%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.avatar {
+  width: 100%;
+}
+
+.settings {
+  top: 0;
+  width: 100%;
+  height: 3rem;
+  position: absolute;
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--font-colr);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  cursor: pointer;
+  transition: 300ms;
+}
+
+.settings:hover {
+  filter: brightness(1.1);
+}
+
+.channels {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.channel {
+  padding: 0.5rem;
+  text-decoration: none;
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  transition: 300ms;
+  border-radius: 0.25rem;
+}
+
+.channel+.channel {
+  margin-top: 0.2rem;
+}
+
+#selected {
+  background-color: var(--bg-hover);
+  filter: brightness(1.3);
+}
+
+.channel:hover {
+  background-color: var(--bg-hover);
+}
+
+.icon {
+  height: 21px;
+  margin-right: 0.5rem;
+}

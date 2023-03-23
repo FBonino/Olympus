@@ -5,7 +5,7 @@ const Me = () => {
 
   return (
     <div className={style.container}>
-
+      Me
     </div>
   )
 }

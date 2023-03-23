@@ -17,6 +17,7 @@ code {
 
 :root {
   --bg-color: #222831;
+  --bg-hover: #29313b;
   --primary-color: #30475E;
   --text-color: #DDDDDD;
   --secondary-color: #F05454;

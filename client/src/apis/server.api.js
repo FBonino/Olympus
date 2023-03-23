@@ -18,4 +18,12 @@ export const serverAPI = {
 
     return data.server
   },
+  getChannel: async (id, channel) => {
+    const { data } = await api.request({
+      url: `/server/${id}/${channel}`,
+      method: "GET"
+    })
+
+    return data.channel
+  }
 }
