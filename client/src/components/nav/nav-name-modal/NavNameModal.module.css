@@ -10,4 +10,5 @@
   white-space: nowrap;
   color: var(--text-color);
   border-radius: 0.4rem;
+  z-index: 10;
 }

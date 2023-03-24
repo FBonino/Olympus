@@ -20,7 +20,7 @@
   height: 0.75rem;
   width: 0.75rem;
   position: absolute;
-  bottom: -5%;
-  right: -3%;
-  border: 3px solid var(--primary-color);
+  bottom: -7%;
+  right: -4%;
+  border: 4px solid var(--bg-darker);
 }

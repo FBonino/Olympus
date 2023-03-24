@@ -3,7 +3,7 @@ import style from "./Server.module.css";
 import { BiChevronDown, BiHash, BiVolumeFull } from "react-icons/bi";
 import { Link, Outlet, useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { setServer } from "../../store/slices/server.slice";
+import { clearSelection, setServer } from "../../store/slices/server.slice";
 
 const Server = () => {
   const dispatch = useDispatch()
@@ -14,12 +14,14 @@ const Server = () => {
   const defaultChannel = localStorage.getItem(server.id) ?? server.defaultChannel
 
   useEffect(() => {
-    if (id != "@me" && !channel) navigate(`/channels/${id}/${defaultChannel}`)
+    if (id !== "@me" && !channel) navigate(`/channels/${id}/${defaultChannel}`)
   }, [])
 
   useEffect(() => {
     dispatch(setServer(server))
   }, [dispatch, server])
+
+  useEffect(() => () => dispatch(clearSelection()), [])
 
   return (
     <div className={style.container}>

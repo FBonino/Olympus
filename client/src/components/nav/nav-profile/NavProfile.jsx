@@ -7,7 +7,7 @@ const NavProfile = ({ img, status }) => {
     "Online": "#007000",
     "Idle": "#ceb900",
     "Do Not Disturb": "#8b0f0f",
-    "Offline": "#303030",
+    "Offline": "#777777",
   }
 
   return (

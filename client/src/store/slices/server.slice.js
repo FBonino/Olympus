@@ -23,6 +23,9 @@ const serverSlice = createSlice({
     },
     setChannel: (state, { payload }) => {
       state.channel = payload
+    },
+    clearSelection: state => {
+      return { ...initialState, servers: state.servers }
     }
   },
   extraReducers: builder => {
@@ -44,6 +47,6 @@ const serverSlice = createSlice({
 
 const { reducer } = serverSlice
 
-export const { setServer, setChannel } = serverSlice.actions
+export const { setServer, setChannel, clearSelection } = serverSlice.actions
 
 export default reducer
