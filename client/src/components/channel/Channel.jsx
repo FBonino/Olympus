@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLoaderData, useParams } from "react-router-dom";
 import { setChannel } from "../../store/slices/server.slice";
 import ChannelChat from "./channel-chat/ChannelChat";
@@ -11,6 +11,7 @@ const Channel = () => {
   const { id } = useParams()
   const dispatch = useDispatch()
   const channel = useLoaderData()
+  const { server } = useSelector(state => state.server)
 
   useEffect(() => {
     localStorage.setItem(id, channel.id)
@@ -22,7 +23,7 @@ const Channel = () => {
       <ChannelNav name={channel.name} type={channel.type} topic={channel.topic} />
       <div className={style.content}>
         <ChannelChat messages={channel.messages} channelName={channel.name} />
-        <ChannelUsersList />
+        <ChannelUsersList users={server?.users} />
       </div>
     </div >
   )
