@@ -8,7 +8,7 @@ const ErrorLoading = () => {
   return (
     <div className={style.container}>
       <h1> Error loading data! </h1>
-      <h3> {err.response.data} </h3>
+      <h3> {err.response?.data} </h3>
     </div>
   )
 }

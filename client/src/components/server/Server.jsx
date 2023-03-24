@@ -11,17 +11,17 @@ const Server = () => {
   const navigate = useNavigate()
   const { id, channel } = useParams()
   const { channel: selectedChannel } = useSelector(state => state.server)
-  const defaultChannel = localStorage.getItem(server.id) ?? server.defaultChannel
 
   useEffect(() => {
+    const defaultChannel = localStorage.getItem(server.id) ?? server.defaultChannel
     if (id !== "@me" && !channel) navigate(`/channels/${id}/${defaultChannel}`)
-  }, [])
+  }, [server.id, server.defaultChannel, navigate, id, channel])
 
   useEffect(() => {
     dispatch(setServer(server))
   }, [dispatch, server])
 
-  useEffect(() => () => dispatch(clearSelection()), [])
+  useEffect(() => () => dispatch(clearSelection()), [dispatch])
 
   return (
     <div className={style.container}>
