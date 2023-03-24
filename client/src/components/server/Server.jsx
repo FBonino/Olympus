@@ -29,7 +29,7 @@ const Server = () => {
         <img className={style.avatar} src={`${process.env.REACT_APP_API}/uploads/${server.avatar}`} alt="" />
         <button className={style.settings}>
           <span> {server.name} </span>
-          <span> <BiChevronDown size={16} /> </span>
+          <span> <BiChevronDown size={20} /> </span>
         </button>
         <div className={style.channels}>
           {

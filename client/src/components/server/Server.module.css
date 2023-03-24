@@ -12,7 +12,9 @@
 }
 
 .avatar {
-  width: 100%;
+  max-height: 12.5%;
+  border-radius: 0.1rem;
+  opacity: 0.8;
 }
 
 .settings {
@@ -26,10 +28,11 @@
   font-weight: 700;
   color: var(--font-colr);
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   cursor: pointer;
   transition: 300ms;
+  padding: 0 1rem;
 }
 
 .settings:hover {
