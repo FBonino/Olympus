@@ -102,7 +102,9 @@ func (ss *ServerServiceImpl) GetUserServers(userId string) ([]*models.Server, er
 	return servers, nil
 }
 
-func (ss *ServerServiceImpl) FindServerByID(serverId string, userId string) (*models.Server, error) {
+func (ss *ServerServiceImpl) FindServerByID(serverId string, userId string) (*models.Server, []*models.User, error) {
+	var users []*models.User
+	var userIDs []string
 	var server *models.Server
 
 	query := bson.M{"users._id": userId, "_id": serverId}
@@ -111,12 +113,37 @@ func (ss *ServerServiceImpl) FindServerByID(serverId string, userId string) (*mo
 
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			return &models.Server{}, err
+			return &models.Server{}, []*models.User{}, err
 		}
-		return nil, err
+		return nil, nil, err
 	}
 
-	return server, nil
+	for _, user := range server.Users {
+		userIDs = append(userIDs, user.ID)
+	}
+
+	query = bson.M{"_id": bson.M{"$in": userIDs}}
+
+	res, err := ss.db.Collection("users").Find(ss.ctx, query)
+
+	for res.Next(ss.ctx) {
+		var user *models.User
+
+		err := res.Decode(&user)
+
+		if err == nil {
+			users = append(users, user)
+		}
+	}
+
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return server, []*models.User{}, err
+		}
+		return nil, nil, err
+	}
+
+	return server, users, nil
 }
 
 func (ss *ServerServiceImpl) FindChannelByID(serverID string, channelID string, userId string) (*models.Channel, error) {

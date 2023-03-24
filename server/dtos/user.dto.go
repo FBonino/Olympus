@@ -24,3 +24,14 @@ func MapUserDTO(user *models.User) UserDTO {
 		CustomStatus: user.CustomStatus,
 	}
 }
+
+func MapUsersDTO(users []*models.User) []UserDTO {
+	var usersDTO []UserDTO
+
+	for _, user := range users {
+		userDTO := MapUserDTO(user)
+		usersDTO = append(usersDTO, userDTO)
+	}
+
+	return usersDTO
+}

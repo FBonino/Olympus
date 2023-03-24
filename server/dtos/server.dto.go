@@ -16,6 +16,15 @@ type ServerDTO struct {
 	DefaultChannel string       `json:"defaultChannel" bson:"defaultChannel"`
 }
 
+type ServerExtendedDTO struct {
+	ID             string       `json:"id" bson:"_id"`
+	Name           string       `json:"name" bson:"name"`
+	Avatar         string       `json:"avatar" bson:"avatar"`
+	Channels       []ChannelDTO `json:"channels" bson:"channels"`
+	DefaultChannel string       `json:"defaultChannel" bson:"defaultChannel"`
+	Users          []UserDTO    `json:"users" bson:"users"`
+}
+
 func MapChannelDTO(channel models.Channel) ChannelDTO {
 	return ChannelDTO{
 		ID:   channel.ID,
@@ -54,4 +63,15 @@ func MapServersDTO(servers []*models.Server) []ServerDTO {
 	}
 
 	return serversDTO
+}
+
+func MapServerExtendedDTO(server *models.Server, users []*models.User) ServerExtendedDTO {
+	return ServerExtendedDTO{
+		ID:             server.ID,
+		Name:           server.Name,
+		Avatar:         server.Avatar,
+		Channels:       MapChannelsDTO(server.Channels),
+		DefaultChannel: server.DefaultChannel,
+		Users:          MapUsersDTO(users),
+	}
 }

@@ -42,14 +42,14 @@ func (sc *ServerController) GetServer(ctx *gin.Context) {
 
 	serverID := ctx.Param("id")
 
-	server, err := sc.serverService.FindServerByID(serverID, user.ID)
+	server, users, err := sc.serverService.FindServerByID(serverID, user.ID)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "server": server})
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "server": dtos.MapServerExtendedDTO(server, users)})
 }
 
 func (sc *ServerController) GetChannel(ctx *gin.Context) {
