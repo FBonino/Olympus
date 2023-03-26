@@ -1,7 +1,6 @@
 package dtos
 
 import (
-	"fmt"
 	"server/models"
 )
 
@@ -84,7 +83,6 @@ func MapServerExtendedDTO(server *models.Server, users []*models.User) ServerExt
 	usersDTO := MapUsersDTO(users)
 
 	for i, user := range server.Users {
-		fmt.Println(i, user, usersDTO[i])
 		var serverUser ServerUserDTO = ServerUserDTO{
 			ID:           usersDTO[i].ID,
 			Username:     usersDTO[i].Username,
