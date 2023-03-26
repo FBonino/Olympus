@@ -36,7 +36,7 @@ func (ss *ServerServiceImpl) CreateServer(userId string, input *models.CreateSer
 
 	var owner models.ServerUser = models.ServerUser{
 		ID:    userId,
-		Roles: []models.ServerRole{defaultRole},
+		Roles: []string{defaultRole.ID},
 	}
 
 	var defaultTextGeneral models.Channel = models.Channel{

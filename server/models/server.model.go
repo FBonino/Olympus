@@ -21,8 +21,8 @@ type ServerRole struct {
 }
 
 type ServerUser struct {
-	ID    string       `json:"id" bson:"_id"`
-	Roles []ServerRole `json:"roles" bson:"roles"`
+	ID    string   `json:"id" bson:"_id"`
+	Roles []string `json:"roles" bson:"roles"`
 }
 
 type Channel struct {

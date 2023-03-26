@@ -5,13 +5,13 @@ import (
 )
 
 type ServerUserDTO struct {
-	ID           string              `json:"id" bson:"_id"`
-	Username     string              `json:"username" bson:"username"`
-	Email        string              `json:"email" bson:"email"`
-	Avatar       string              `json:"avatar" bson:"avatar"`
-	Status       string              `json:"status" bson:"status"`
-	CustomStatus string              `json:"customStatus" bson:"customStatus"`
-	Roles        []models.ServerRole `json:"roles" bson:"roles"`
+	ID           string   `json:"id" bson:"_id"`
+	Username     string   `json:"username" bson:"username"`
+	Email        string   `json:"email" bson:"email"`
+	Avatar       string   `json:"avatar" bson:"avatar"`
+	Status       string   `json:"status" bson:"status"`
+	CustomStatus string   `json:"customStatus" bson:"customStatus"`
+	Roles        []string `json:"roles" bson:"roles"`
 }
 
 type ChannelDTO struct {
@@ -29,12 +29,13 @@ type ServerDTO struct {
 }
 
 type ServerExtendedDTO struct {
-	ID             string          `json:"id" bson:"_id"`
-	Name           string          `json:"name" bson:"name"`
-	Avatar         string          `json:"avatar" bson:"avatar"`
-	Channels       []ChannelDTO    `json:"channels" bson:"channels"`
-	DefaultChannel string          `json:"defaultChannel" bson:"defaultChannel"`
-	Users          []ServerUserDTO `json:"users" bson:"users"`
+	ID             string              `json:"id" bson:"_id"`
+	Name           string              `json:"name" bson:"name"`
+	Avatar         string              `json:"avatar" bson:"avatar"`
+	Channels       []ChannelDTO        `json:"channels" bson:"channels"`
+	DefaultChannel string              `json:"defaultChannel" bson:"defaultChannel"`
+	Users          []ServerUserDTO     `json:"users" bson:"users"`
+	Roles          []models.ServerRole `json:"roles" bson:"roles"`
 }
 
 func MapChannelDTO(channel models.Channel) ChannelDTO {
@@ -80,17 +81,24 @@ func MapServersDTO(servers []*models.Server) []ServerDTO {
 func MapServerExtendedDTO(server *models.Server, users []*models.User) ServerExtendedDTO {
 	var serverUsersDTO []ServerUserDTO
 
-	usersDTO := MapUsersDTO(users)
+	for _, svUser := range server.Users {
+		var userDTO UserDTO
 
-	for i, user := range server.Users {
+		for _, user := range users {
+			if svUser.ID == user.ID {
+				userDTO = MapUserDTO(user)
+				break
+			}
+		}
+
 		var serverUser ServerUserDTO = ServerUserDTO{
-			ID:           usersDTO[i].ID,
-			Username:     usersDTO[i].Username,
-			Email:        usersDTO[i].Email,
-			Avatar:       usersDTO[i].Avatar,
-			Status:       usersDTO[i].Status,
-			CustomStatus: usersDTO[i].CustomStatus,
-			Roles:        user.Roles,
+			ID:           userDTO.ID,
+			Username:     userDTO.Username,
+			Email:        userDTO.Email,
+			Avatar:       userDTO.Avatar,
+			Status:       userDTO.Status,
+			CustomStatus: userDTO.CustomStatus,
+			Roles:        svUser.Roles,
 		}
 
 		serverUsersDTO = append(serverUsersDTO, serverUser)
@@ -103,5 +111,6 @@ func MapServerExtendedDTO(server *models.Server, users []*models.User) ServerExt
 		Channels:       MapChannelsDTO(server.Channels),
 		DefaultChannel: server.DefaultChannel,
 		Users:          serverUsersDTO,
+		Roles:          server.Roles,
 	}
 }
