@@ -48,7 +48,7 @@ const Server = () => {
           }
         </div>
       </div>
-      <Outlet />
+      <Outlet context={server} />
     </div>
   )
 }

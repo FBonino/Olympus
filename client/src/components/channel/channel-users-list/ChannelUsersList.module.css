@@ -22,6 +22,20 @@
   border-radius: 1rem;
 }
 
+.role {
+  width: 100%;
+}
+
+.role+.role {
+  margin-top: 0.5rem;
+}
+
+.roleTitle {
+  margin-left: 0.3rem;
+  font-weight: 650;
+  font-size: 17px;
+}
+
 .user {
   display: flex;
   align-items: center;
