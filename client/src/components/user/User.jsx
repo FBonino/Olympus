@@ -1,7 +1,7 @@
 import React from "react";
 import style from "./User.module.css";
 
-const User = ({ username, status, customStatus, avatar, color }) => {
+const User = ({ username, status, customStatus, avatar, color, nav }) => {
   const statusColor = {
     "Online": "#007000",
     "Idle": "#ceb900",
@@ -12,12 +12,12 @@ const User = ({ username, status, customStatus, avatar, color }) => {
   return (
     <div className={style.container}>
       <div className={style.image}>
-        <img className={style.avatar} src={`${process.env.REACT_APP_API}/uploads/${avatar}`} alt="" />
-        <div className={style.status} style={{ backgroundColor: statusColor[status] }} />
+        <img className={nav ? style.avatarNav : style.avatar} src={`${process.env.REACT_APP_API}/uploads/${avatar}`} alt="" />
+        <div className={nav ? style.statusNav : style.status} style={{ backgroundColor: statusColor[status] }} />
       </div>
       <div className={style.text}>
-        <span className={style.username} style={{ color }}> {username} </span>
-        <span className={style.customStatus}> {customStatus} </span>
+        <span className={nav ? style.usernameNav : style.username} style={{ color }}> {username} </span>
+        <span className={nav ? style.customStatusNav : style.customStatus}> {customStatus} </span>
       </div>
     </div>
   )

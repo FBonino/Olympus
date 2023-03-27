@@ -12,6 +12,11 @@
   background-color: var(--bg-hover);
 }
 
+.container:hover>.image>.statusNav,
+.container:hover>.image>.status {
+  border-color: var(--bg-hover);
+}
+
 .image {
   position: relative;
   height: 100%;
@@ -19,21 +24,39 @@
   align-items: center;
 }
 
-.avatar {
+.avatar,
+.avatarNav {
   height: 2rem;
   width: 2rem;
   border-radius: 50%;
+}
+
+.avatar {
   margin-right: 0.75rem;
 }
 
-.status {
+.avatarNav {
+  margin-right: 0.25rem;
+}
+
+.status,
+.statusNav {
   border-radius: 50%;
   height: 9px;
   width: 9px;
   position: absolute;
-  border: 3px solid var(--bg-darker);
-  bottom: -4%;
-  right: 22%;
+  bottom: -5%;
+  right: 23%;
+  transition: 300ms;
+  border: 3px solid;
+}
+
+.status {
+  border-color: var(--bg-color);
+}
+
+.statusNav {
+  border-color: var(--bg-darker);
 }
 
 .text {
@@ -44,20 +67,32 @@
   overflow: hidden;
 }
 
-.username {
+.username,
+.usernameNav,
+.customStatus,
+.customStatusNav {
   width: 100%;
-  font-size: 16px;
-  font-weight: 600;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
 
+.username {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.usernameNav {
+  font-size: 13px;
+  font-weight: 600;
+}
+
 .customStatus {
-  width: 100%;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
+}
+
+.customStatusNav {
+  font-size: 11px;
+  font-weight: 500;
 }

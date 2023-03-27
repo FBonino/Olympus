@@ -15,7 +15,7 @@ const NavProfile = ({ user }) => {
 
   return (
     <div className={style.container}>
-      <User username={user.username} status={user.status} customStatus={user.customStatus} avatar={user.avatar} />
+      <User username={user.username} status={user.status} customStatus={user.customStatus} avatar={user.avatar} nav={true} />
       <div className={style.subcontainer}>
         <div className={style.iconContainer} onClick={() => handleState("mute")}>
           <FaMicrophone size={20} className={style.icon} />
