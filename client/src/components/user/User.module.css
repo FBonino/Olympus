@@ -57,6 +57,7 @@
 
 .statusNav {
   border-color: var(--bg-darker);
+  right: 6%;
 }
 
 .text {
