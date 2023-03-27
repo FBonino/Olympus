@@ -14,6 +14,7 @@ const Nav = () => {
     <div className={style.container}>
       <div className={style.subcontainer}>
         <NavDMs />
+        <div className={style.separator} />
         {
           servers.map(({ id, name, avatar, defaultChannel }) =>
             <NavServer key={id} id={id} name={name} avatar={avatar} defaultChannel={defaultChannel} />

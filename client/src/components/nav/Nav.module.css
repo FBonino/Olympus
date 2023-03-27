@@ -10,3 +10,12 @@
   background-color: var(--bg-darker);
   position: relative;
 }
+
+.separator {
+  margin: auto;
+  margin-top: 0.4rem;
+  margin-bottom: 0.8rem;
+  background-color: var(--bg-hover);
+  height: 0.15rem;
+  width: 70%;
+}
