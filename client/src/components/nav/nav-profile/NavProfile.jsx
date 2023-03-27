@@ -1,22 +1,37 @@
-import React from "react";
-import NavButton from "../nav-button/NavButton";
+import React, { useState } from "react";
+import User from "../../user/User";
 import style from "./NavProfile.module.css";
+import { AiTwotoneSetting } from "react-icons/ai";
+import { FaMicrophone, FaHeadphonesAlt, FaSlash } from "react-icons/fa";
 
-const NavProfile = ({ img, status }) => {
-  const statusColor = {
-    "Online": "#007000",
-    "Idle": "#ceb900",
-    "Do Not Disturb": "#8b0f0f",
-    "Offline": "#777777",
+const NavProfile = ({ user }) => {
+  const [state, setState] = useState({ mute: localStorage.getItem("mute") ?? false, deaf: localStorage.getItem("false") ?? false })
+
+  const handleState = name => {
+    const newState = !state[name]
+    localStorage[name] = newState
+    setState({ ...state, [name]: newState })
   }
 
   return (
-    <NavButton name="Profile">
-      <div className={style.container}>
-        <img className={style.image} src={`${process.env.REACT_APP_API}/uploads/${img}`} alt="" />
-        <div className={style.status} style={{ backgroundColor: statusColor[status] }} />
+    <div className={style.container}>
+      <User username={user.username} status={user.status} customStatus={user.customStatus} avatar={user.avatar} />
+      <div className={style.subcontainer}>
+        <div className={style.iconContainer} onClick={() => handleState("mute")}>
+          <FaMicrophone size={20} className={style.icon} />
+          {
+            state.mute && <FaSlash size={22} className={style.disabled} />
+          }
+        </div>
+        <div className={style.iconContainer} onClick={() => handleState("deaf")}>
+          <FaHeadphonesAlt size={20} className={style.icon} />
+          {
+            state.deaf && <FaSlash size={22} className={style.disabled} />
+          }
+        </div>
+        <AiTwotoneSetting size={20} className={style.icon} />
       </div>
-    </NavButton>
+    </div>
   )
 }
 

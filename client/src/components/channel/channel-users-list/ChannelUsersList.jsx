@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import User from "../../user/User";
 import style from "./ChannelUsersList.module.css";
 
 const ChannelUsersList = ({ users, roles }) => {
@@ -22,18 +23,12 @@ const ChannelUsersList = ({ users, roles }) => {
           const role = roles.find(role => role.id === r)
           return (
             <div className={style.role} key={r}>
-              <p className={style.roleTitle}> {role.name} - {usersByRole[r].length} </p>
+              <p className={style.roleTitle}> {role.name.toUpperCase()} - {usersByRole[r].length} </p>
               {
                 usersByRole[r].map(u => {
-                  const user = users.find(user => user.id === u)
+                  const { id, username, status, customStatus, avatar } = users.find(user => user.id === u)
                   return (
-                    <div className={style.user} key={u}>
-                      <img className={style.avatar} src={`${process.env.REACT_APP_API}/uploads/${user.avatar}`} alt="" />
-                      <div className={style.text}>
-                        <span className={style.username} style={{ color: role.color }}> {user.username} </span>
-                        <span className={style.customStatus}> {user.customStatus} </span>
-                      </div>
-                    </div>
+                    <User key={id} username={username} status={status} customStatus={customStatus} avatar={avatar} color={role.color} />
                   )
                 })
               }

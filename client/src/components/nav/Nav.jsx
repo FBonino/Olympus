@@ -15,13 +15,13 @@ const Nav = () => {
       <div className={style.subcontainer}>
         <NavDMs />
         {
-          servers.map(s =>
-            <NavServer key={s.id} id={s.id} name={s.name} avatar={s.avatar} defaultChannel={s.defaultChannel} />
+          servers.map(({ id, name, avatar, defaultChannel }) =>
+            <NavServer key={id} id={id} name={name} avatar={avatar} defaultChannel={defaultChannel} />
           )
         }
         <NavCreateServer />
       </div>
-      <NavProfile img={user.avatar} status={user.status} />
+      <NavProfile user={user} />
     </div>
   )
 }
