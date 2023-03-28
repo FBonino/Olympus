@@ -5,6 +5,7 @@
   justify-content: center;
   align-items: center;
   color: var(--text-color);
+  position: relative;
 }
 
 .link {
@@ -15,4 +16,14 @@
   align-items: center;
   text-decoration: none;
   color: inherit;
+}
+
+.selected {
+  position: absolute;
+  top: 5%;
+  height: 90%;
+  width: 0.28rem;
+  background-color: var(--text-color);
+  left: -20%;
+  border-radius: 0 50% 50% 0;
 }

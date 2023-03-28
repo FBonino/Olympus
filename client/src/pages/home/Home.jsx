@@ -7,7 +7,7 @@ const Home = () => {
   return (
     <div className={style.container}>
       <Link to="/channels/@me"> Open App </Link>
-      <Link> Register </Link>
+      <Link to="/auth"> Register </Link>
     </div>
   )
 }

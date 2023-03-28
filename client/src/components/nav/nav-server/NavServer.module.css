@@ -4,7 +4,8 @@
   position: relative;
 }
 
-.container:hover>.link>.image {
+.container:hover>.link>.image,
+#selected {
   border-radius: 0.95rem;
 }
 

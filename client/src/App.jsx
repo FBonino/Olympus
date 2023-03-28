@@ -14,7 +14,7 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <div className="App">
+    <div className="App" onContextMenu={e => e.preventDefault()}>
       {
         !isLoading && <RouterProvider router={router} />
       }

@@ -8,6 +8,8 @@ import Protected from "./components/protected/Protected";
 import { serverAPI } from "./apis/server.api";
 import ErrorLoading from "./components/error-loading/ErrorLoading";
 import Channel from "./components/channel/Channel";
+import Friends from "./components/me/friends/Friends";
+import DirectMessage from "./components/me/direct-message/DirectMessage";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +31,17 @@ const router = createBrowserRouter([
           {
             path: "/channels/@me",
             element: <Me />,
+            errorElement: <ErrorLoading />,
+            children: [
+              {
+                path: "/channels/@me",
+                element: <Friends />
+              },
+              {
+                path: "/channels/@me/:id",
+                element: <DirectMessage />
+              }
+            ]
           },
           {
             path: "/channels/:id",

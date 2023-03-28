@@ -12,7 +12,8 @@
   margin: 0.4rem 0;
 }
 
-.container:hover {
+.container:hover,
+#selected {
   border-radius: 1rem;
   border-color: var(--bg-color);
   background-color: var(--secondary-color);
