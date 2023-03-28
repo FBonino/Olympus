@@ -12,6 +12,12 @@ type User struct {
 	Password     string    `json:"password" bson:"password"`
 	Status       uint8     `json:"status" bson:"status"`
 	CustomStatus string    `json:"customStatus" bson:"customStatus"`
+	Friends      []Friend  `json:"friends" bson:"friends"`
 	CreatedAt    time.Time `json:"createdAt" bson:"createdAt"`
 	UpdatedAt    time.Time `json:"updatedAt" bson:"updatedAt"`
+}
+
+type Friend struct {
+	ID     string `json:"id" bson:"_id"`
+	Status uint8  `json:"status" bson:"status"`
 }

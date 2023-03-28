@@ -34,7 +34,7 @@ func (sc *ServerController) CreateServer(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "server": dtos.MapServerDTO(server)})
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "server": dtos.MapServerBasicDTO(server)})
 }
 
 func (sc *ServerController) GetServer(ctx *gin.Context) {
@@ -49,7 +49,7 @@ func (sc *ServerController) GetServer(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "server": dtos.MapServerExtendedDTO(server, users)})
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "server": dtos.MapServerDTO(server, users)})
 }
 
 func (sc *ServerController) GetChannel(ctx *gin.Context) {

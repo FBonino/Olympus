@@ -88,7 +88,7 @@ func (ac *AuthController) Login(ctx *gin.Context) {
 
 	ctx.SetCookie("SID", session.Token, config.TokenMaxAge, "/", "localhost", false, true)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "user": dtos.MapUserDTO(user), "servers": dtos.MapServersDTO(servers)})
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "user": dtos.MapUserDTO(user), "servers": dtos.MapServersBasicDTO(servers)})
 }
 
 func (ac *AuthController) Logout(ctx *gin.Context) {
@@ -117,5 +117,5 @@ func (ac *AuthController) AutoLogin(ctx *gin.Context) {
 
 	ctx.SetCookie("SID", session.Token, config.TokenMaxAge, "/", "localhost", false, true)
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "user": dtos.MapUserDTO(user), "servers": dtos.MapServersDTO(servers)})
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "user": dtos.MapUserDTO(user), "servers": dtos.MapServersBasicDTO(servers)})
 }

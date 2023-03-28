@@ -43,7 +43,7 @@ func (ss *ServerServiceImpl) CreateServer(userId string, input *models.CreateSer
 		ID:       uuid.NewGen().NewV4().String(),
 		Name:     "general",
 		Type:     "text",
-		Messages: []models.Message{},
+		Messages: []string{},
 	}
 
 	var defaultVoiceGeneral models.Channel = models.Channel{
