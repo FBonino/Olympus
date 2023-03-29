@@ -27,14 +27,18 @@ var (
 	userService    services.UserService
 	sessionService services.SessionService
 	serverService  services.ServerService
+	channelService services.ChannelService
+	messageService services.MessageService
 
-	AuthController   controllers.AuthController
-	UserController   controllers.UserController
-	ServerController controllers.ServerController
+	AuthController    controllers.AuthController
+	UserController    controllers.UserController
+	ServerController  controllers.ServerController
+	ChannelController controllers.ChannelController
 
-	AuthRouteController   routes.AuthRouteController
-	UserRouteController   routes.UserRouteController
-	ServerRouteController routes.ServerRouteController
+	AuthRouteController    routes.AuthRouteController
+	UserRouteController    routes.UserRouteController
+	ServerRouteController  routes.ServerRouteController
+	ChannelRouteController routes.ChannelRouteController
 )
 
 func init() {
@@ -65,16 +69,20 @@ func init() {
 	userService = services.NewUserService(db, ctx)
 	sessionService = services.NewSessionService(db, ctx)
 	serverService = services.NewServerService(db, ctx)
+	channelService = services.NewChannelService(db, ctx)
+	messageService = services.NewMessageService(db, ctx)
 
 	// Controllers
 	AuthController = controllers.NewAuthController(authService, userService, sessionService, serverService)
 	UserController = controllers.NewUserController(userService)
-	ServerController = controllers.NewServerController(serverService)
+	ServerController = controllers.NewServerController(serverService, channelService)
+	ChannelController = controllers.NewChannelController(channelService, messageService)
 
 	// Routes
 	AuthRouteController = routes.NewAuthRouteController(AuthController)
 	UserRouteController = routes.NewUserRouteController(UserController)
 	ServerRouteController = routes.NewServerRouteController(ServerController)
+	ChannelRouteController = routes.NewChannelRouteController(ChannelController)
 
 	server = gin.Default()
 }
@@ -103,6 +111,7 @@ func main() {
 	AuthRouteController.AuthRoute(router, userService)
 	UserRouteController.UserRoute(router, userService)
 	ServerRouteController.ServerRoute(router, userService)
+	ChannelRouteController.ChannelRoute(router, userService)
 
 	log.Fatal(server.Run(":" + config.Port))
 }

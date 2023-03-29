@@ -19,7 +19,6 @@ func NewServerRouteController(serverController controllers.ServerController) Ser
 func (rc *ServerRouteController) ServerRoute(rg *gin.RouterGroup, userService services.UserService) {
 	router := rg.Group("/server")
 
-	router.POST("", middlewares.DeserializeUser(userService), rc.serverController.CreateServer)
+	router.POST("", middlewares.DeserializeUser(userService), rc.serverController.Create)
 	router.GET("/:id", middlewares.DeserializeUser(userService), rc.serverController.GetServer)
-	router.GET("/:id/:channel", middlewares.DeserializeUser(userService), rc.serverController.GetChannel)
 }

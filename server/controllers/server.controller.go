@@ -10,14 +10,15 @@ import (
 )
 
 type ServerController struct {
-	serverService services.ServerService
+	serverService  services.ServerService
+	channelService services.ChannelService
 }
 
-func NewServerController(serverService services.ServerService) ServerController {
-	return ServerController{serverService}
+func NewServerController(serverService services.ServerService, channelService services.ChannelService) ServerController {
+	return ServerController{serverService, channelService}
 }
 
-func (sc *ServerController) CreateServer(ctx *gin.Context) {
+func (sc *ServerController) Create(ctx *gin.Context) {
 	var input *models.CreateServerInput
 
 	user := ctx.MustGet("user").(*models.User)
@@ -27,7 +28,17 @@ func (sc *ServerController) CreateServer(ctx *gin.Context) {
 		return
 	}
 
-	server, err := sc.serverService.CreateServer(user.ID, input)
+	defaultTextInput := models.CreateChannelInput{Name: "general", Type: "text"}
+
+	defaultText, _ := sc.channelService.Create(defaultTextInput)
+
+	defaultVoiceInput := models.CreateChannelInput{Name: "general", Type: "voice"}
+
+	defaultVoice, _ := sc.channelService.Create(defaultVoiceInput)
+
+	input.Channels = []string{defaultText.ID, defaultVoice.ID}
+
+	server, err := sc.serverService.Create(user.ID, input)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
@@ -42,29 +53,19 @@ func (sc *ServerController) GetServer(ctx *gin.Context) {
 
 	serverID := ctx.Param("id")
 
-	server, users, err := sc.serverService.FindServerByID(serverID, user.ID)
+	server, users, err := sc.serverService.FindByID(serverID, user.ID)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "server": dtos.MapServerDTO(server, users)})
-}
-
-func (sc *ServerController) GetChannel(ctx *gin.Context) {
-	user := ctx.MustGet("user").(*models.User)
-
-	serverID := ctx.Param("id")
-
-	channelID := ctx.Param("channel")
-
-	channel, err := sc.serverService.FindChannelByID(serverID, channelID, user.ID)
+	channels, err := sc.channelService.FindManyByID(server.Channels)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "channel": channel})
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "server": dtos.MapServerDTO(server, users, channels)})
 }

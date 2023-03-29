@@ -18,7 +18,7 @@ type ChannelDTO struct {
 	Messages []models.Message `json:"messages" bson:"messages"`
 }
 
-func MapChannelBasicDTO(channel models.Channel) ChannelBasicDTO {
+func MapChannelBasicDTO(channel *models.Channel) ChannelBasicDTO {
 	return ChannelBasicDTO{
 		ID:   channel.ID,
 		Name: channel.Name,
@@ -26,7 +26,7 @@ func MapChannelBasicDTO(channel models.Channel) ChannelBasicDTO {
 	}
 }
 
-func MapChannelsBasicDTO(channels []models.Channel) []ChannelBasicDTO {
+func MapChannelsBasicDTO(channels []*models.Channel) []ChannelBasicDTO {
 	var channelsDTO []ChannelBasicDTO
 
 	for _, channel := range channels {
@@ -37,7 +37,7 @@ func MapChannelsBasicDTO(channels []models.Channel) []ChannelBasicDTO {
 	return channelsDTO
 }
 
-func MapChannelDTO(channel models.Channel, messages []models.Message) ChannelDTO {
+func MapChannelDTO(channel *models.Channel, messages []models.Message) ChannelDTO {
 	return ChannelDTO{
 		ID:       channel.ID,
 		Name:     channel.Name,
