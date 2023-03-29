@@ -34,7 +34,8 @@
 .messages {
   height: 100%;
   overflow-y: scroll;
-  padding: 0 0.5rem;
+  padding: 0.25rem 1rem;
+  margin-top: 0.5rem;
 }
 
 .messages::-webkit-scrollbar {
@@ -50,7 +51,10 @@
 
 .message {
   display: flex;
-  margin-bottom: 1rem;
+}
+
+.message+.message {
+  margin-top: 1.5rem;
 }
 
 .avatar {
