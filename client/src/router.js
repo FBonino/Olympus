@@ -10,6 +10,7 @@ import ErrorLoading from "./components/error-loading/ErrorLoading";
 import Channel from "./components/channel/Channel";
 import Friends from "./components/me/friends/Friends";
 import DirectMessage from "./components/me/direct-message/DirectMessage";
+import { channelAPI } from "./apis/channels.api";
 
 const router = createBrowserRouter([
   {
@@ -56,7 +57,7 @@ const router = createBrowserRouter([
                 path: "/channels/:id/:channel",
                 element: <Channel />,
                 loader: async ({ request, params }) => {
-                  const channel = await serverAPI.getChannel(params.id, params.channel)
+                  const channel = await channelAPI.getChannel(params.channel)
                   return channel
                 },
               }

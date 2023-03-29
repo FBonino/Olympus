@@ -1,10 +1,10 @@
 .container {
   height: 100%;
   width: 100%;
-  padding: 0 1rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  padding: 0.25rem;
 }
 
 .form {
@@ -12,7 +12,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 1.5rem;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  box-sizing: border-box;
 }
 
 .input {
@@ -27,4 +29,53 @@
 
 .input:focus {
   outline: none;
+}
+
+.messages {
+  height: 100%;
+  overflow-y: scroll;
+  padding: 0 0.5rem;
+}
+
+.messages::-webkit-scrollbar {
+  background-color: var(--bg-dark);
+  border-radius: 1rem;
+  width: 0.5rem;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background-color: var(--bg-darker);
+  border-radius: 1rem;
+}
+
+.message {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.avatar {
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 50%;
+  margin-right: 0.75rem;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.username {
+  margin-right: 0.5rem;
+}
+
+.date {
+  font-size: 10px;
+  font-weight: 450;
+  color: #BBBBBB;
 }
