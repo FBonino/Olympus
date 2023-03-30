@@ -5,6 +5,7 @@ import (
 	"server/dtos"
 	"server/models"
 	"server/services"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,6 +22,16 @@ func NewChannelController(channelService services.ChannelService, messageService
 func (cc *ChannelController) GetChannel(ctx *gin.Context) {
 	channelID := ctx.Param("channel")
 
+	var queryLimit int
+
+	limit := ctx.Query("limit")
+
+	queryLimit, err := strconv.Atoi(limit)
+
+	if err != nil {
+		queryLimit = 50
+	}
+
 	channel, err := cc.channelService.FindByID(channelID)
 
 	if err != nil {
@@ -28,7 +39,7 @@ func (cc *ChannelController) GetChannel(ctx *gin.Context) {
 		return
 	}
 
-	messages, err := cc.channelService.FindMessages(channel.Messages)
+	messages, err := cc.channelService.FindMessages(channel.Messages, int64(queryLimit))
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})

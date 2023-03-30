@@ -105,16 +105,17 @@ func (cs *ChannelServiceImpl) AddMessage(channelID string, messageID string) err
 	return err
 }
 
-func (cs *ChannelServiceImpl) FindMessages(messageIDs []string) ([]models.Message, error) {
+func (cs *ChannelServiceImpl) FindMessages(messageIDs []string, limit int64) ([]models.Message, error) {
 	var messages []models.Message
 
 	query := bson.M{
 		"_id": bson.M{
 			"$in": messageIDs,
 		},
+		"isDeleted": false,
 	}
 
-	options := options.Find().SetSort(bson.M{"createdAt": 1})
+	options := options.Find().SetSort(bson.M{"createdAt": -1}).SetLimit(limit)
 
 	res, err := cs.db.Collection("messages").Find(cs.ctx, query, options)
 
