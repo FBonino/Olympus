@@ -57,7 +57,7 @@ const router = createBrowserRouter([
                 path: "/channels/:id/:channel",
                 element: <Channel />,
                 loader: async ({ request, params }) => {
-                  const channel = await channelAPI.getChannel(params.channel)
+                  const channel = await channelAPI.getChannel(params.channel, 50)
                   return channel
                 },
               }

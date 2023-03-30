@@ -1,9 +1,9 @@
 import api from "./configs";
 
 export const channelAPI = {
-  getChannel: async id => {
+  getChannel: async (id, limit) => {
     const { data } = await api.request({
-      url: `/channel/${id}`,
+      url: `/channel/${id}?limit=${limit}`,
       method: "GET"
     })
 

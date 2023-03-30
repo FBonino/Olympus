@@ -20,7 +20,7 @@ const ChannelChat = ({ id, messages, channelName, users }) => {
     <div className={style.container}>
       <div className={style.messages}>
         {
-          messages && messages.map(m => {
+          messages && [...messages].reverse().map(m => {
             const date = new Date(m.createdAt)
             const user = users.find(u => u.id === m.author)
             return (
