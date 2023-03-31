@@ -9,6 +9,7 @@ import (
 	"server/controllers"
 	"server/routes"
 	"server/services"
+	"server/websocket"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -106,6 +107,17 @@ func main() {
 
 	router.GET("/healthchecker", func(ctx *gin.Context) {
 		ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": "ok"})
+	})
+
+	wsServer := websocket.NewWebsocketServer()
+
+	go wsServer.Run()
+
+	router.GET("/ws/:user/:channel", func(ctx *gin.Context) {
+		userID := ctx.Param("user")
+		channelID := ctx.Param("channel")
+
+		websocket.ServeWs(wsServer, ctx, userID, channelID)
 	})
 
 	AuthRouteController.AuthRoute(router, userService)
