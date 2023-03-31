@@ -11,11 +11,11 @@ type ChannelBasicDTO struct {
 }
 
 type ChannelDTO struct {
-	ID       string           `json:"id" bson:"_id"`
-	Name     string           `json:"name" bson:"name"`
-	Type     string           `json:"type" bson:"type"`
-	Topic    string           `json:"topic" bson:"topic"`
-	Messages []models.Message `json:"messages" bson:"messages"`
+	ID       string       `json:"id" bson:"_id"`
+	Name     string       `json:"name" bson:"name"`
+	Type     string       `json:"type" bson:"type"`
+	Topic    string       `json:"topic" bson:"topic"`
+	Messages []MessageDTO `json:"messages" bson:"messages"`
 }
 
 func MapChannelBasicDTO(channel *models.Channel) ChannelBasicDTO {
@@ -37,12 +37,12 @@ func MapChannelsBasicDTO(channels []*models.Channel) []ChannelBasicDTO {
 	return channelsDTO
 }
 
-func MapChannelDTO(channel *models.Channel, messages []models.Message) ChannelDTO {
+func MapChannelDTO(channel *models.Channel, messages []*models.Message) ChannelDTO {
 	return ChannelDTO{
 		ID:       channel.ID,
 		Name:     channel.Name,
 		Type:     channel.Type,
 		Topic:    channel.Topic,
-		Messages: messages,
+		Messages: MapMessagesDTO(messages),
 	}
 }

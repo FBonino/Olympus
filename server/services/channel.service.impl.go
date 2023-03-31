@@ -105,8 +105,8 @@ func (cs *ChannelServiceImpl) AddMessage(channelID string, messageID string) err
 	return err
 }
 
-func (cs *ChannelServiceImpl) FindMessages(messageIDs []string, limit int64) ([]models.Message, error) {
-	var messages []models.Message
+func (cs *ChannelServiceImpl) FindMessages(messageIDs []string, limit int64) ([]*models.Message, error) {
+	var messages []*models.Message
 
 	query := bson.M{
 		"_id": bson.M{
@@ -121,7 +121,7 @@ func (cs *ChannelServiceImpl) FindMessages(messageIDs []string, limit int64) ([]
 
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			return []models.Message{}, err
+			return []*models.Message{}, err
 		}
 		return nil, err
 	}
@@ -132,7 +132,7 @@ func (cs *ChannelServiceImpl) FindMessages(messageIDs []string, limit int64) ([]
 		err := res.Decode(&message)
 
 		if err == nil {
-			messages = append(messages, message)
+			messages = append(messages, &message)
 		}
 	}
 

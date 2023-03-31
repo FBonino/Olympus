@@ -75,5 +75,5 @@ func (cc *ChannelController) NewMessage(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": message})
+	ctx.JSON(http.StatusCreated, gin.H{"status": "success", "message": dtos.MapMessageDTO(message)})
 }
