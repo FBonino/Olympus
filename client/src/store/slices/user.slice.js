@@ -16,7 +16,7 @@ export const autoLogin = createAsyncThunk("user/autoLogin", async input => {
   return data
 })
 
-const initialState = {
+const initialState = JSON.parse(localStorage.getItem("account")) || {
   id: "",
   username: "",
   email: "",
@@ -34,6 +34,7 @@ const userSlice = createSlice({
     builder
       .addCase(login.fulfilled, (state, { payload }) => {
         const { servers, ...user } = payload
+        localStorage.setItem("account", JSON.stringify(user))
         return { ...user, signedin: true }
       })
       .addCase(login.rejected, () => {
@@ -44,6 +45,7 @@ const userSlice = createSlice({
       })
       .addCase(autoLogin.fulfilled, (state, { payload }) => {
         const { servers, ...user } = payload
+        localStorage.setItem("account", JSON.stringify(user))
         return { ...user, signedin: true }
       })
   }

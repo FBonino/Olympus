@@ -22,8 +22,8 @@ const Channel = () => {
     <div className={style.container}>
       <ChannelNav name={channel.name} type={channel.type} topic={channel.topic} />
       <div className={style.content}>
-        <ChannelChat id={channel.id} messages={channel.messages} channelName={channel.name} users={server.users} />
-        <ChannelUsersList key={channel.id} channel={channel} users={server.users} roles={server.roles} />
+        <ChannelChat key={"Chat" + channel.id} id={channel.id} messages={channel.messages} channelName={channel.name} users={server.users} />
+        <ChannelUsersList key={"Users" + channel.id} channel={channel} users={server.users} roles={server.roles} />
       </div>
     </div >
   )
