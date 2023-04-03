@@ -34,7 +34,7 @@ const CreateServerForm = ({ handleClose }) => {
       .then(() => handleClose())
   }
 
-  useEffect(() => () => setInput({ name: `${username}'s server`, avatar: "" }), []);
+  useEffect(() => () => setInput({ name: `${username}'s server`, avatar: "" }), [username]);
 
   return (
     <DefaultModal handleClose={handleClose}>

@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
 import { channelAPI } from "../../../apis/channels.api";
 import style from "./ChannelChat.module.css";
+import Message from "../../message/Message";
 
-const ChannelChat = ({ id, messages, channelName, users }) => {
+const ChannelChat = ({ id, messages, channelName, users, roles }) => {
   const [updatedMessages, setUpdatedMessages] = useState(messages ? [...messages].reverse() : [])
   const lastMessageRef = useRef()
   const [message, setMessage] = useState("")
@@ -35,17 +36,9 @@ const ChannelChat = ({ id, messages, channelName, users }) => {
           updatedMessages && updatedMessages.map(m => {
             const date = new Date(m.createdAt)
             const user = users.find(u => u.id === m.author)
+            const role = roles.find(r => r.id === user.roles[0])
             return (
-              <div className={style.message} key={m.id}>
-                <img className={style.avatar} src={`${process.env.REACT_APP_API}/uploads/${user.avatar}`} alt="" />
-                <div className={style.text}>
-                  <div className={style.title}>
-                    <span className={style.username}> {user.username} </span>
-                    <span className={style.date}> {date.toLocaleString()} </span>
-                  </div>
-                  <span className={style.content}> {m.content} </span>
-                </div>
-              </div>
+              <Message key={m.id} avatar={user.avatar} username={user.username} date={date} content={m.content} color={role.color} />
             )
           })
         }
