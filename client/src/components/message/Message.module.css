@@ -1,9 +1,15 @@
 .container {
   display: flex;
+  transition: 300ms;
+  padding: 0.2rem 2rem 0.2rem 1rem;
+}
+
+.container:hover {
+  background-color: var(--bg-color);
 }
 
 .container+.container {
-  margin-top: 1.5rem;
+  margin-top: 1rem;
 }
 
 .avatar {
@@ -11,6 +17,7 @@
   width: 2.5rem;
   border-radius: 50%;
   margin-right: 0.75rem;
+  cursor: pointer;
 }
 
 .text {
@@ -27,6 +34,11 @@
 
 .username {
   margin-right: 0.5rem;
+}
+
+.username:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .date {

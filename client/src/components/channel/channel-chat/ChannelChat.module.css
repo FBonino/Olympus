@@ -4,7 +4,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 0.25rem;
 }
 
 .form {
@@ -34,8 +33,8 @@
 .messages {
   height: 100%;
   overflow-y: scroll;
-  padding: 0.25rem 1rem;
   margin-top: 0.5rem;
+  margin-right: 0.25rem;
 }
 
 .messages::-webkit-scrollbar {
