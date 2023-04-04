@@ -34,15 +34,15 @@ const Server = () => {
         <div className={style.channels}>
           {
             server.channels?.map(c => (
-              <Link to={`/channels/${id}/${c.id}`} key={c.id} id={c.id === selectedChannel?.id ? style.selected : null} className={style.channel}>
-                <span className={style.icon}>
+              <Link contextMenu="channel" to={`/channels/${id}/${c.id}`} key={c.id} id={c.id === selectedChannel?.id ? style.selected : null} className={style.channel}>
+                <span contextMenu="channel" className={style.icon}>
                   {
                     c.type === "text"
                       ? <BiHash size={21} />
                       : <BiVolumeFull size={21} />
                   }
                 </span>
-                <span> {c.name} </span>
+                <span contextMenu="channel"> {c.name} </span>
               </Link>
             ))
           }

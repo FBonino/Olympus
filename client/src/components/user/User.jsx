@@ -9,15 +9,17 @@ const User = ({ username, status, customStatus, avatar, color, nav }) => {
     "Offline": "#777777",
   }
 
+  const contextMenu = !nav && "avatar"
+
   return (
-    <div className={style.container}>
-      <div className={style.image}>
-        <img className={nav ? style.avatarNav : style.avatar} src={`${process.env.REACT_APP_API}/uploads/${avatar}`} alt="" />
+    <div contextMenu={contextMenu} className={style.container}>
+      <div contextMenu={contextMenu} className={style.image}>
+        <img contextMenu={contextMenu} className={nav ? style.avatarNav : style.avatar} src={`${process.env.REACT_APP_API}/uploads/${avatar}`} alt="" />
         <div className={nav ? style.statusNav : style.status} style={{ backgroundColor: statusColor[status] }} />
       </div>
-      <div className={style.text}>
-        <span className={nav ? style.usernameNav : style.username} style={{ color }}> {username} </span>
-        <span className={nav ? style.customStatusNav : style.customStatus}> {customStatus} </span>
+      <div contextMenu={contextMenu} className={style.text}>
+        <span contextMenu={contextMenu} className={nav ? style.usernameNav : style.username} style={{ color }}> {username} </span>
+        <span contextMenu={contextMenu} className={nav ? style.customStatusNav : style.customStatus}> {customStatus} </span>
       </div>
     </div>
   )

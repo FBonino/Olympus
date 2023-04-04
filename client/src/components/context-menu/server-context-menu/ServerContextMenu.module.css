@@ -1,0 +1,12 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem;
+}
+
+.separator {
+  width: 95%;
+  margin: 0.2rem auto;
+  height: 0.05rem;
+  background-color: var(--bg-hover);
+}

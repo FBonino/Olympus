@@ -10,9 +10,9 @@ const NavServer = ({ id, name, avatar, defaultChannel }) => {
 
   return (
     <NavButton name={name} selected={id === server?.id}>
-      <div className={style.container}>
+      <div contextMenu="server" className={style.container}>
         <Link to={`/channels/${id}/${toChannel}`} className={style.link}>
-          <img id={id === server?.id ? style.selected : ""} className={style.image} src={`${process.env.REACT_APP_API}/uploads/${avatar}`} alt="" />
+          <img contextMenu="server" id={id === server?.id ? style.selected : ""} className={style.image} src={`${process.env.REACT_APP_API}/uploads/${avatar}`} alt="" />
         </Link>
         {
           id === server?.id && <div className={style.selected} />
