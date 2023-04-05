@@ -6,6 +6,7 @@
   border-radius: 0.25rem;
   cursor: pointer;
   transition: 300ms;
+  box-sizing: border-box;
 }
 
 .container:hover {

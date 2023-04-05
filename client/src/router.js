@@ -11,6 +11,7 @@ import Channel from "./components/channel/Channel";
 import Friends from "./components/me/friends/Friends";
 import DirectMessage from "./components/me/direct-message/DirectMessage";
 import { channelAPI } from "./apis/channels.api";
+import { conversationAPI } from "./apis/conversation.api";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
           {
             path: "/channels/@me",
             element: <Me />,
+            loader: async () => {
+              const conversations = await conversationAPI.me()
+              return conversations
+            },
             errorElement: <ErrorLoading />,
             children: [
               {
@@ -39,24 +44,28 @@ const router = createBrowserRouter([
                 element: <Friends />
               },
               {
-                path: "/channels/@me/:id",
-                element: <DirectMessage />
+                path: "/channels/@me/:conversation",
+                element: <DirectMessage />,
+                loader: async ({ params }) => {
+                  const conversation = await conversationAPI.getConversation(params.conversation, 50)
+                  return conversation
+                }
               }
             ]
           },
           {
-            path: "/channels/:id",
+            path: "/channels/:server",
             element: <Server />,
-            loader: async ({ request, params }) => {
-              const server = await serverAPI.getServer(params.id)
+            loader: async ({ params }) => {
+              const server = await serverAPI.getServer(params.server)
               return server
             },
             errorElement: <ErrorLoading />,
             children: [
               {
-                path: "/channels/:id/:channel",
+                path: "/channels/:server/:channel",
                 element: <Channel />,
-                loader: async ({ request, params }) => {
+                loader: async ({ params }) => {
                   const channel = await channelAPI.getChannel(params.channel, 50)
                   return channel
                 },

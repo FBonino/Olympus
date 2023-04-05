@@ -9,7 +9,7 @@ const User = ({ username, status, customStatus, avatar, color, nav }) => {
     "Offline": "#777777",
   }
 
-  const contextMenu = !nav && "avatar"
+  const contextMenu = !nav ? "avatar" : undefined
 
   return (
     <div contextMenu={contextMenu} className={style.container}>
