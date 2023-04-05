@@ -20,7 +20,7 @@ type ConversationDTO struct {
 	UpdatedAt time.Time    `json:"updatedAt" bson:"updatedAt"`
 }
 
-func MapConversationBasicDTO(conversation models.Conversation, users []*models.User) ConversationBasicDTO {
+func MapConversationBasicDTO(conversation *models.Conversation, users []*models.User) ConversationBasicDTO {
 	return ConversationBasicDTO{
 		ID:     conversation.ID,
 		Avatar: conversation.Avatar,
@@ -28,7 +28,7 @@ func MapConversationBasicDTO(conversation models.Conversation, users []*models.U
 	}
 }
 
-func MapConversationDTO(conversation models.Conversation, users []*models.User, messages []*models.Message) ConversationDTO {
+func MapConversationDTO(conversation *models.Conversation, users []*models.User, messages []*models.Message) ConversationDTO {
 	return ConversationDTO{
 		ID:        conversation.ID,
 		Avatar:    conversation.Avatar,
@@ -37,4 +37,26 @@ func MapConversationDTO(conversation models.Conversation, users []*models.User, 
 		CreatedAt: conversation.CreatedAt,
 		UpdatedAt: conversation.UpdatedAt,
 	}
+}
+
+func MapConversationsBasicDTO(conversations []*models.Conversation, users []*models.User) []ConversationBasicDTO {
+	var conversationsDTO []ConversationBasicDTO
+
+	for _, conversation := range conversations {
+		var conversationUsers []*models.User
+
+		for _, userID := range conversation.Users {
+			for _, user := range users {
+				if userID == user.ID {
+					conversationUsers = append(conversationUsers, user)
+				}
+			}
+		}
+
+		conversationDTO := MapConversationBasicDTO(conversation, conversationUsers)
+
+		conversationsDTO = append(conversationsDTO, conversationDTO)
+	}
+
+	return conversationsDTO
 }

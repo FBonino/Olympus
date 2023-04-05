@@ -55,3 +55,34 @@ func (us *UserServiceImpl) FindByIdentifier(identifier string) (*models.User, er
 
 	return user, nil
 }
+
+func (us *UserServiceImpl) FindManyByID(userIDs []string) ([]*models.User, error) {
+	var users []*models.User
+
+	query := bson.M{
+		"_id": bson.M{
+			"$in": userIDs,
+		},
+	}
+
+	res, err := us.db.Collection("users").Find(us.ctx, query)
+
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return []*models.User{}, err
+		}
+		return nil, err
+	}
+
+	for res.Next(us.ctx) {
+		var user *models.User
+
+		err := res.Decode(&user)
+
+		if err == nil {
+			users = append(users, user)
+		}
+	}
+
+	return users, nil
+}

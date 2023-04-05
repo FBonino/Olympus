@@ -39,7 +39,7 @@ func (cc *ChannelController) GetChannel(ctx *gin.Context) {
 		return
 	}
 
-	messages, err := cc.channelService.FindMessages(channel.Messages, int64(queryLimit))
+	messages, err := cc.messageService.FindMessages(channel.Messages, int64(queryLimit))
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})

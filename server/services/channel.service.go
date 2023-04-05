@@ -7,5 +7,4 @@ type ChannelService interface {
 	FindByID(string) (*models.Channel, error)
 	FindManyByID([]string) ([]*models.Channel, error)
 	AddMessage(string, string) error
-	FindMessages([]string, int64) ([]*models.Message, error)
 }
