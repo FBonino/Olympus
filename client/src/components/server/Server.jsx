@@ -9,7 +9,7 @@ const Server = () => {
   const dispatch = useDispatch()
   const server = useLoaderData()
   const navigate = useNavigate()
-  const { id, channel } = useParams()
+  const { server: id, channel } = useParams()
   const { channel: selectedChannel } = useSelector(state => state.server)
 
   useEffect(() => {
