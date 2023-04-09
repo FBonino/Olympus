@@ -85,12 +85,12 @@ func (cs *ConversationServiceImpl) Create(input *models.CreateConversationInput)
 	return &conversation, nil
 }
 
-func (cs *ConversationServiceImpl) FindByID(channelID string) (*models.Conversation, error) {
+func (cs *ConversationServiceImpl) FindByID(conversationID string) (*models.Conversation, error) {
 	var conversation *models.Conversation
 
-	query := bson.M{"_id": channelID}
+	query := bson.M{"_id": conversationID}
 
-	err := cs.db.Collection("conversation").FindOne(cs.ctx, query).Decode(&conversation)
+	err := cs.db.Collection("conversations").FindOne(cs.ctx, query).Decode(&conversation)
 
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
@@ -109,7 +109,7 @@ func (cs *ConversationServiceImpl) AddMessage(conversationID string, messageID s
 		},
 	}
 
-	_, err := cs.db.Collection("conversation").UpdateByID(cs.ctx, conversationID, update)
+	_, err := cs.db.Collection("conversations").UpdateByID(cs.ctx, conversationID, update)
 
 	return err
 }

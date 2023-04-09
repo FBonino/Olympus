@@ -32,7 +32,7 @@ func (cc *ConversationController) GetUserConversations(ctx *gin.Context) {
 
 	users, _ := cc.userService.FindManyByID(usersIDs)
 
-	ctx.JSON(http.StatusCreated, gin.H{"status": "success", "conversations": dtos.MapConversationsBasicDTO(conversations, users)})
+	ctx.JSON(http.StatusCreated, gin.H{"status": "success", "conversations": dtos.MapConversationsBasicDTO(conversations, user.ID, users)})
 }
 
 func (cc *ConversationController) Create(ctx *gin.Context) {
@@ -62,10 +62,12 @@ func (cc *ConversationController) Create(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, gin.H{"status": "success", "conversation": dtos.MapConversationBasicDTO(conversation, users)})
+	ctx.JSON(http.StatusCreated, gin.H{"status": "success", "conversation": dtos.MapConversationBasicDTO(conversation, user.ID, users)})
 }
 
 func (cc *ConversationController) GetConversation(ctx *gin.Context) {
+	user := ctx.MustGet("user").(*models.User)
+
 	conversationID := ctx.Param("conversation")
 
 	var queryLimit int
@@ -99,7 +101,7 @@ func (cc *ConversationController) GetConversation(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"status": "success", "conversation": dtos.MapConversationDTO(conversation, users, messages)})
+	ctx.JSON(http.StatusOK, gin.H{"status": "success", "conversation": dtos.MapConversationDTO(conversation, user.ID, users, messages)})
 }
 
 func (cc *ConversationController) NewMessage(ctx *gin.Context) {
