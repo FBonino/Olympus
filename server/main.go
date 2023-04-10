@@ -78,8 +78,8 @@ func init() {
 	conversationService = services.NewConversationService(db, ctx)
 
 	// Controllers
-	AuthController = controllers.NewAuthController(authService, userService, sessionService, serverService)
-	UserController = controllers.NewUserController(userService)
+	AuthController = controllers.NewAuthController(authService, userService, sessionService)
+	UserController = controllers.NewUserController(userService, serverService)
 	ServerController = controllers.NewServerController(serverService, channelService)
 	ChannelController = controllers.NewChannelController(channelService, messageService)
 	ConversationController = controllers.NewConversationController(conversationService, messageService, userService)

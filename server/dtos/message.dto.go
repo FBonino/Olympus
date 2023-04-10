@@ -24,7 +24,7 @@ func MapMessageDTO(message *models.Message) MessageDTO {
 }
 
 func MapMessagesDTO(messages []*models.Message) []MessageDTO {
-	var messagesDTO []MessageDTO
+	messagesDTO := []MessageDTO{}
 
 	for _, message := range messages {
 		messageDTO := MapMessageDTO(message)

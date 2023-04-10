@@ -15,10 +15,9 @@ type ServerUserDTO struct {
 }
 
 type ServerBasicDTO struct {
-	ID     string `json:"id" bson:"_id"`
-	Name   string `json:"name" bson:"name"`
-	Avatar string `json:"avatar" bson:"avatar"`
-	// Channels       []ChannelBasicDTO `json:"channels" bson:"channels"`
+	ID             string `json:"id" bson:"_id"`
+	Name           string `json:"name" bson:"name"`
+	Avatar         string `json:"avatar" bson:"avatar"`
 	DefaultChannel string `json:"defaultChannel" bson:"defaultChannel"`
 }
 
@@ -34,10 +33,9 @@ type ServerDTO struct {
 
 func MapServerBasicDTO(server *models.Server) ServerBasicDTO {
 	return ServerBasicDTO{
-		ID:     server.ID,
-		Name:   server.Name,
-		Avatar: server.Avatar,
-		// Channels:       MapChannelsBasicDTO(channels),
+		ID:             server.ID,
+		Name:           server.Name,
+		Avatar:         server.Avatar,
 		DefaultChannel: server.DefaultChannel,
 	}
 }
@@ -54,7 +52,7 @@ func MapServersBasicDTO(servers []*models.Server) []ServerBasicDTO {
 }
 
 func MapServerDTO(server *models.Server, users []*models.User, channels []*models.Channel) ServerDTO {
-	var serverUsersDTO []ServerUserDTO
+	serverUsersDTO := []ServerUserDTO{}
 
 	for _, svUser := range server.Users {
 		var userDTO UserDTO

@@ -24,7 +24,7 @@ type ConversationDTO struct {
 
 func MapConversationBasicDTO(conversation *models.Conversation, myID string, users []*models.User) ConversationBasicDTO {
 	var me *models.User
-	var otherUsers []*models.User
+	otherUsers := []*models.User{}
 
 	for _, user := range users {
 		if user.ID != myID {
@@ -39,13 +39,12 @@ func MapConversationBasicDTO(conversation *models.Conversation, myID string, use
 		Avatar: conversation.Avatar,
 		Me:     MapUserDTO(me),
 		Users:  MapUsersDTO(otherUsers),
-		// Users:  MapUsersDTO(users),
 	}
 }
 
 func MapConversationDTO(conversation *models.Conversation, myID string, users []*models.User, messages []*models.Message) ConversationDTO {
 	var me *models.User
-	var otherUsers []*models.User
+	otherUsers := []*models.User{}
 
 	for _, user := range users {
 		if user.ID != myID {
@@ -56,11 +55,10 @@ func MapConversationDTO(conversation *models.Conversation, myID string, users []
 	}
 
 	return ConversationDTO{
-		ID:     conversation.ID,
-		Avatar: conversation.Avatar,
-		Me:     MapUserDTO(me),
-		Users:  MapUsersDTO(otherUsers),
-		// Users:     MapUsersDTO(users),
+		ID:        conversation.ID,
+		Avatar:    conversation.Avatar,
+		Me:        MapUserDTO(me),
+		Users:     MapUsersDTO(otherUsers),
 		Messages:  MapMessagesDTO(messages),
 		CreatedAt: conversation.CreatedAt,
 		UpdatedAt: conversation.UpdatedAt,
@@ -68,7 +66,7 @@ func MapConversationDTO(conversation *models.Conversation, myID string, users []
 }
 
 func MapConversationsBasicDTO(conversations []*models.Conversation, myID string, users []*models.User) []ConversationBasicDTO {
-	var conversationsDTO []ConversationBasicDTO
+	conversationsDTO := []ConversationBasicDTO{}
 
 	for _, conversation := range conversations {
 		var conversationUsers []*models.User
