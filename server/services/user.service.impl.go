@@ -86,3 +86,39 @@ func (us *UserServiceImpl) FindManyByID(userIDs []string) ([]*models.User, error
 
 	return users, nil
 }
+
+func (us *UserServiceImpl) GetUserFriends(friendsList []models.Friend) ([]*models.User, error) {
+	friendsIDs := []string{}
+	var friends []*models.User
+
+	for _, f := range friendsList {
+		friendsIDs = append(friendsIDs, f.ID)
+	}
+
+	query := bson.M{
+		"_id": bson.M{
+			"$in": friendsIDs,
+		},
+	}
+
+	res, err := us.db.Collection("users").Find(us.ctx, query)
+
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			return []*models.User{}, err
+		}
+		return nil, err
+	}
+
+	for res.Next(us.ctx) {
+		var friend *models.User
+
+		err = res.Decode(&friend)
+
+		if err == nil {
+			friends = append(friends, friend)
+		}
+	}
+
+	return friends, nil
+}

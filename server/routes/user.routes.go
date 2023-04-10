@@ -19,5 +19,6 @@ func NewUserRouteController(userController controllers.UserController) UserRoute
 func (rc *UserRouteController) UserRoute(rg *gin.RouterGroup, userService services.UserService) {
 	router := rg.Group("/user")
 
+	router.GET("/me", middlewares.DeserializeUser(userService), rc.userController.GetMyUser)
 	router.POST("/upload", middlewares.DeserializeUser(userService), rc.userController.UploadAvatar)
 }

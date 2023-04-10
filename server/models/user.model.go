@@ -18,6 +18,6 @@ type User struct {
 }
 
 type Friend struct {
-	ID     string `json:"id" bson:"_id"`
-	Status uint8  `json:"status" bson:"status"`
+	ID       string `json:"id" bson:"_id"`
+	Relation uint8  `json:"relation" bson:"relation"`
 }
