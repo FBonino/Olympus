@@ -12,6 +12,7 @@ import Friends from "./components/me/friends/Friends";
 import DirectMessage from "./components/me/direct-message/DirectMessage";
 import { channelAPI } from "./apis/channels.api";
 import { conversationAPI } from "./apis/conversation.api";
+import { userAPI } from "./apis/user.api";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Protected />,
+    loader: async () => {
+      const { user, servers } = await userAPI.getMyUser()
+      return { user, servers }
+    },
     children: [
       {
         path: "/channels",

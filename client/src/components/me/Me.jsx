@@ -6,8 +6,6 @@ import style from "./Me.module.css";
 const Me = () => {
   const conversations = useLoaderData()
 
-  console.log(conversations)
-
   return (
     <div className={style.container}>
       <DirectMessages conversations={conversations} />

@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import router from './router';
 import { RouterProvider } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { autoLogin } from './store/slices/user.slice';
 import ContextMenu from './components/context-menu/ContextMenu';
+import { authAPI } from './apis/auth.api';
 
 const App = () => {
-  const dispatch = useDispatch()
-  const [isLoading, setIsLoading] = useState(true)
   const [x, setX] = useState(0)
   const [y, setY] = useState(0)
   const [showMenu, setShowMenu] = useState(false)
   const [menuType, setMenuType] = useState("avatar")
+  const [isLoading, setIsLoading] = useState(true)
 
   const closeMenu = () => setShowMenu(false)
 
@@ -24,9 +22,9 @@ const App = () => {
   }
 
   useEffect(() => {
-    dispatch(autoLogin())
+    authAPI.autoLogin()
       .then(() => setIsLoading(false))
-  }, [dispatch])
+  }, [])
 
   return (
     <div className="App" onContextMenu={handleContextMenu}>

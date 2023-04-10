@@ -1,20 +1,18 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../store/slices/user.slice";
 import DefaultAlert from "../../ui/default-alert/DefaultAlert";
 import DefaultInput from "../../ui/default-input/DefaultInput";
 import style from "./Login.module.css";
+import { authAPI } from "../../apis/auth.api";
 
 const Login = ({ onChangeHasAccount }) => {
   const navigate = useNavigate()
-  const dispatch = useDispatch()
   const [credentials, setCredentials] = useState({ identifier: "", password: "" })
 
   const handleSubmit = async e => {
     e.preventDefault()
     try {
-      await dispatch(login(credentials))
+      await authAPI.login(credentials)
       navigate("/")
     } catch (err) {
       DefaultAlert({

@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { serverAPI } from "../../apis/server.api";
-import { autoLogin, login, logout } from "./user.slice";
+import { logout } from "./user.slice";
 
 export const createServer = createAsyncThunk("server/create", async input => {
   const server = await serverAPI.createServer(input)
   return server
 })
-
 
 const initialState = {
   servers: [],
@@ -21,6 +20,9 @@ const serverSlice = createSlice({
     setServer: (state, { payload }) => {
       state.server = payload
     },
+    setServers: (state, { payload }) => {
+      state.servers = payload
+    },
     setChannel: (state, { payload }) => {
       state.channel = payload
     },
@@ -30,14 +32,8 @@ const serverSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(login.fulfilled, (state, { payload }) => {
-        return { servers: payload.servers ?? [] }
-      })
       .addCase(logout.fulfilled, (state, { payload }) => {
         return initialState
-      })
-      .addCase(autoLogin.fulfilled, (state, { payload }) => {
-        return { servers: payload.servers ?? [] }
       })
       .addCase(createServer.fulfilled, (state, { payload }) => {
         state.servers.push(payload)
@@ -47,6 +43,6 @@ const serverSlice = createSlice({
 
 const { reducer } = serverSlice
 
-export const { setServer, setChannel, clearSelection } = serverSlice.actions
+export const { setServer, setServers, setChannel, clearSelection } = serverSlice.actions
 
 export default reducer

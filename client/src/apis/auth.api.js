@@ -8,7 +8,7 @@ export const authAPI = {
       data: input
     })
 
-    return { servers: data.servers, ...data.user }
+    return data.user
   },
   signup: async input => {
     const { data } = await api.request({
@@ -33,6 +33,6 @@ export const authAPI = {
       method: "GET"
     })
 
-    return { servers: data.servers, ...data.user }
+    return data.user
   }
 }

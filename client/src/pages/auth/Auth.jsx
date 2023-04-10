@@ -7,14 +7,14 @@ import style from "./Auth.module.css";
 
 const Auth = () => {
   const navigate = useNavigate()
-  const { signedin } = useSelector(state => state.user)
+  const user = useSelector(state => state.user)
   const [hasAccount, setHasAccount] = useState(true)
 
   const changeHasAccount = () => setHasAccount(!hasAccount)
 
   useEffect(() => {
-    if (signedin) navigate("/")
-  })
+    if (user) navigate("/channels/@me")
+  }, [user, navigate])
 
   return (
     <div className={style.container}>
