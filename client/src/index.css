@@ -16,11 +16,12 @@ code {
 }
 
 :root {
-  --bg-darker: #1c1f24;
-  --bg-dark: #262a30;
-  --bg-color: #2b3138;
-  --bg-hover: #373e47;
-  --primary-color: #30475E;
+  --bg-darker: #212225;
+  --bg-dark: #26282c;
+  --bg-color: #36393d;
+  --bg-hover: #454a50;
   --text-color: #DDDDDD;
+  --text-darker: #7e8286;
+  --primary-color: #30475E;
   --secondary-color: #F05454;
 }
