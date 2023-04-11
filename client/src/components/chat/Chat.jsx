@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket";
-import style from "./ChannelChat.module.css";
-import Message from "../../message/Message";
+import style from "./Chat.module.css";
+import Message from "../message/Message";
 
-const ChannelChat = ({ id, messages, channelName, users, roles, createMessage }) => {
+const Chat = ({ id, messages, channelName, users, roles, createMessage }) => {
   const [updatedMessages, setUpdatedMessages] = useState(messages ? [...messages].reverse() : [])
   const lastMessageRef = useRef()
   const [message, setMessage] = useState("")
@@ -50,4 +50,4 @@ const ChannelChat = ({ id, messages, channelName, users, roles, createMessage })
   )
 }
 
-export default ChannelChat
+export default Chat
