@@ -41,7 +41,7 @@ func MapServerBasicDTO(server *models.Server) ServerBasicDTO {
 }
 
 func MapServersBasicDTO(servers []*models.Server) []ServerBasicDTO {
-	var serversDTO []ServerBasicDTO
+	serversDTO := []ServerBasicDTO{}
 
 	for _, server := range servers {
 		serverDTO := MapServerBasicDTO(server)

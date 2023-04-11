@@ -24,6 +24,7 @@ type ConversationDTO struct {
 
 func MapConversationBasicDTO(conversation *models.Conversation, myID string, users []*models.User) ConversationBasicDTO {
 	var me *models.User
+
 	otherUsers := []*models.User{}
 
 	for _, user := range users {
@@ -44,6 +45,7 @@ func MapConversationBasicDTO(conversation *models.Conversation, myID string, use
 
 func MapConversationDTO(conversation *models.Conversation, myID string, users []*models.User, messages []*models.Message) ConversationDTO {
 	var me *models.User
+
 	otherUsers := []*models.User{}
 
 	for _, user := range users {

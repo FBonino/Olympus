@@ -16,7 +16,7 @@ type UserDTO struct {
 
 type FriendDTO struct {
 	User     UserDTO `json:"user" bson:"user"`
-	Relation uint8   `json:"relation" bson:"relation"`
+	Relation string  `json:"relation" bson:"relation"`
 }
 
 type MyUserDTO struct {
@@ -41,7 +41,7 @@ func MapUserDTO(user *models.User) UserDTO {
 }
 
 func MapUsersDTO(users []*models.User) []UserDTO {
-	var usersDTO []UserDTO
+	usersDTO := []UserDTO{}
 
 	for _, user := range users {
 		userDTO := MapUserDTO(user)
@@ -59,9 +59,8 @@ func MapMyUserDTO(user *models.User, friends []*models.User) MyUserDTO {
 			if friend.ID == userFriend.ID {
 				friendDTO := FriendDTO{
 					User:     MapUserDTO(friend),
-					Relation: userFriend.Relation,
+					Relation: helpers.TransformRelation(userFriend.Relation),
 				}
-
 				friendsDTO = append(friendsDTO, friendDTO)
 			}
 		}
