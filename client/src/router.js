@@ -13,6 +13,7 @@ import DirectMessage from "./components/me/direct-message/DirectMessage";
 import { channelAPI } from "./apis/channels.api";
 import { conversationAPI } from "./apis/conversation.api";
 import { userAPI } from "./apis/user.api";
+import Unauthorized from "./pages/unauthorized/Unauthorized";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,7 @@ const router = createBrowserRouter([
       const { user, servers } = await userAPI.getMyUser()
       return { user, servers }
     },
+    errorElement: <Unauthorized />,
     children: [
       {
         path: "/channels",
