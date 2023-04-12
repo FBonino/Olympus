@@ -34,6 +34,7 @@ func (as *AuthServiceImpl) Signup(signupInput *models.SignupInput) (*models.User
 		Password:     hashedPassword,
 		Status:       0,
 		CustomStatus: "",
+		Friends:      []models.Friend{},
 		CreatedAt:    now,
 		UpdatedAt:    now,
 	}
