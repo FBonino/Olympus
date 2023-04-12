@@ -23,7 +23,7 @@ const App = () => {
 
   useEffect(() => {
     authAPI.autoLogin()
-      .then(() => setIsLoading(false))
+      .finally(() => setIsLoading(false))
   }, [])
 
   return (

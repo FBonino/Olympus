@@ -6,14 +6,15 @@ export const logout = createAsyncThunk("user/logout", async () => {
   return data
 })
 
-const initialState = JSON.parse(localStorage.getItem("account")) || {
+const initialState = {
   id: "",
   username: "",
   email: "",
   avatar: "",
   status: "",
   signedin: false,
-  customStatus: ""
+  customStatus: "",
+  friends: []
 }
 
 const userSlice = createSlice({

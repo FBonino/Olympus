@@ -16,11 +16,11 @@ const DirectMessages = ({ conversations }) => {
         </div>
         <div className={style.dms}>
           {
-            conversations.map(({ id, users }) => {
+            !!conversations.length && conversations.map(({ id, users }) => {
               const user = users[0]
               return (
-                <Link to={`/channels/@me/${id}`} className={style.link}>
-                  <User avatar={user.avatar} username={user.username} status={user.status} />
+                <Link key={id} to={`/channels/@me/${id}`} className={style.link}>
+                  <User avatar={user?.avatar} username={user?.username} status={user?.status} />
                 </Link>
               )
             })

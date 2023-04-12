@@ -13,7 +13,7 @@ const Auth = () => {
   const changeHasAccount = () => setHasAccount(!hasAccount)
 
   useEffect(() => {
-    if (user) navigate("/channels/@me")
+    if (user.id) navigate("/channels/@me")
   }, [user, navigate])
 
   return (
