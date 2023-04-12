@@ -18,10 +18,11 @@ code {
 :root {
   --bg-darker: #212225;
   --bg-dark: #26282c;
-  --bg-color: #36393d;
-  --bg-hover: #454a50;
+  --bg-color: #2f3135;
+  --bg-hover: #3b3f44;
+  --bg-light: #4c5157;
   --text-color: #DDDDDD;
-  --text-darker: #7e8286;
+  --text-darker: #999da1;
   --primary-color: #30475E;
   --secondary-color: #F05454;
 }
