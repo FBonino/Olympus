@@ -1,0 +1,27 @@
+import React from "react";
+import style from "./Friend.module.css";
+import { TbMessageCircle2Filled, TbDotsVertical } from "react-icons/tb";
+import mapStatusColor from "../../../helpers/mapStatusColor";
+
+const Friend = ({ friend }) => {
+  return (
+    <div className={style.container}>
+      <div className={style.user}>
+        <div className={style.avatar}>
+          <img className={style.image} src={`${process.env.REACT_APP_API}/uploads/${friend.avatar}`} />
+          <div className={style.status} style={{ backgroundColor: mapStatusColor(friend.status) }} />
+        </div>
+        <div className={style.userText}>
+          <span className={style.username}> {friend.username} </span>
+          <span className={style.statusText}> {friend.status} </span>
+        </div>
+      </div>
+      <div className={style.options}>
+        <TbMessageCircle2Filled className={style.icon} size={20} />
+        <TbDotsVertical className={style.icon} size={20} />
+      </div>
+    </div>
+  )
+}
+
+export default Friend
