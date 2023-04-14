@@ -54,18 +54,31 @@ func (cs *ConversationServiceImpl) FindUserConversations(id string) ([]*models.C
 	return conversations, usersIDs, nil
 }
 
-func (cs *ConversationServiceImpl) Create(input *models.CreateConversationInput) (*models.Conversation, error) {
-	var avatar string
+func (cs *ConversationServiceImpl) FindOrCreate(input *models.CreateConversationInput) (*models.Conversation, error) {
+	var conversation models.Conversation
+
+	query := bson.M{
+		"users": bson.M{
+			"$size": len(input.Users),
+			"$all":  input.Users,
+		},
+	}
+
+	err := cs.db.Collection("conversations").FindOne(cs.ctx, query).Decode(&conversation)
+
+	if err != nil {
+		if err != mongo.ErrNoDocuments {
+			return nil, err
+		}
+	} else {
+		return &conversation, nil
+	}
 
 	now := time.Now()
 
-	if len(input.Users) > 2 {
-		avatar = "default-group-avatar.png"
-	}
-
-	conversation := models.Conversation{
+	conversation = models.Conversation{
 		ID:        uuid.NewGen().NewV4().String(),
-		Avatar:    avatar,
+		Avatar:    "default-group-avatar.png",
 		Users:     input.Users,
 		Owner:     input.Owner,
 		Messages:  []string{},
@@ -73,7 +86,7 @@ func (cs *ConversationServiceImpl) Create(input *models.CreateConversationInput)
 		UpdatedAt: now,
 	}
 
-	_, err := cs.db.Collection("conversations").InsertOne(cs.ctx, &conversation)
+	_, err = cs.db.Collection("conversations").InsertOne(cs.ctx, &conversation)
 
 	if err != nil {
 		if err == mongo.ErrNoDocuments {

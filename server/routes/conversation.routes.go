@@ -20,7 +20,7 @@ func (rc *ConversationRouteController) ConversationRoute(rg *gin.RouterGroup, us
 	router := rg.Group("/conversation")
 
 	router.GET("/me", middlewares.DeserializeUser(userService), rc.conversationController.GetUserConversations)
-	router.POST("", middlewares.DeserializeUser(userService), rc.conversationController.Create)
+	router.POST("", middlewares.DeserializeUser(userService), rc.conversationController.FindOrCreate)
 	router.GET("/:conversation", middlewares.DeserializeUser(userService), rc.conversationController.GetConversation)
 	router.POST("/:conversation/messages", middlewares.DeserializeUser(userService), rc.conversationController.NewMessage)
 }

@@ -35,7 +35,7 @@ func (cc *ConversationController) GetUserConversations(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, gin.H{"status": "success", "conversations": dtos.MapConversationsBasicDTO(conversations, user.ID, users)})
 }
 
-func (cc *ConversationController) Create(ctx *gin.Context) {
+func (cc *ConversationController) FindOrCreate(ctx *gin.Context) {
 	user := ctx.MustGet("user").(*models.User)
 
 	var input *models.CreateConversationInput
@@ -46,9 +46,10 @@ func (cc *ConversationController) Create(ctx *gin.Context) {
 	}
 
 	input.Users = append(input.Users, user.ID)
+
 	input.Owner = user.ID
 
-	conversation, err := cc.conversationService.Create(input)
+	conversation, err := cc.conversationService.FindOrCreate(input)
 
 	if err != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
