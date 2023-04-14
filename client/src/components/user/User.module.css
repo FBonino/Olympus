@@ -61,6 +61,15 @@
   right: 6%;
 }
 
+#active {
+  background-color: var(--bg-light);
+}
+
+#active>.image>.statusNav,
+#active>.image>.status {
+  border-color: var(--bg-light);
+}
+
 .text {
   width: 100%;
   display: flex;
