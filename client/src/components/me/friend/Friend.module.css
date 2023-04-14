@@ -10,6 +10,10 @@
   height: 4rem;
 }
 
+.container:hover+.container {
+  border-color: transparent;
+}
+
 .container:hover {
   background-color: var(--bg-light);
   border-color: transparent;

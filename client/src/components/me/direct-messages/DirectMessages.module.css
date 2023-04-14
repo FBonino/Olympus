@@ -31,14 +31,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #AAAAAA;
+  color: var(--text-darker);
   margin: 0 0.2rem;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.5rem;
 }
 
 .header:hover {
   color: var(--text-color);
-  filter: brightness(1.2);
 }
 
 .title {
@@ -47,16 +46,24 @@
 }
 
 .newDM {
+  display: flex;
+  align-items: center;
   background-color: transparent;
   border: none;
   border-radius: 50%;
-  padding: 0.1rem;
   cursor: pointer;
-  color: #AAAAAA;
-  font-size: 18px;
+  color: var(--text-color);
+}
+
+.newDM:hover {
+  filter: brightness(1.5);
 }
 
 .link {
   text-decoration: none;
   color: inherit;
+}
+
+.wrapper {
+  margin: 0.15rem 0;
 }
