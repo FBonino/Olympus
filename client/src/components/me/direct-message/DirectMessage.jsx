@@ -6,14 +6,14 @@ import Chat from "../../chat/Chat";
 import { conversationAPI } from "../../../apis/conversation.api";
 
 const DirectMessage = () => {
-  const conversation = useLoaderData()
-  const { username, status } = conversation.users.length ? conversation.users[0] : conversation.me
+  const { id, messages, users, me } = useLoaderData()
+  const { username, status } = users.length === 0 ? me : users.length === 1 ? users[0] : { username: [...users, me].map(user => user.username).join(", ") }
 
   return (
     <div className={style.container}>
       <DirectMessageNav status={status} username={username} />
       <div className={style.content}>
-        <Chat id={conversation.id} messages={conversation.messages} users={[...conversation.users, conversation.me]} key={conversation.id} createMessage={conversationAPI.newMessage} />
+        <Chat id={id} messages={messages} users={[...users, me]} key={id} createMessage={conversationAPI.newMessage} />
       </div>
     </div>
   )

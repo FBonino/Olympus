@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import style from "./DirectMessages.module.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import User from "../../user/User";
+import { HiPlusSm } from "react-icons/hi";
+import { useSelector } from "react-redux";
+import CreateConversationForm from "../../create-conversation-form/CreateConversationForm";
 
 const DirectMessages = ({ conversations }) => {
+  const params = useParams()
+  const [isOpen, setIsOpen] = useState(false)
+  const { friends } = useSelector(state => state.user)
+
+  const toggleModal = () => setIsOpen(!isOpen)
+
   return (
     <div className={style.container}>
       <form className={style.filter}>
@@ -12,21 +21,26 @@ const DirectMessages = ({ conversations }) => {
       <div className={style.subcontainer}>
         <div className={style.header}>
           <span className={style.title}> DIRECT MESSAGES </span>
-          <button className={style.newDM}> + </button>
+          <button className={style.newDM} onClick={() => setIsOpen(true)}> <HiPlusSm size={20} /> </button>
         </div>
         <div className={style.dms}>
           {
-            !!conversations.length && conversations.map(({ id, users }) => {
-              const user = users[0]
+            !!conversations.length && conversations.map(({ id, users, avatar, me }) => {
+              const user = users.length === 0 ? me : users.length === 1 ? users[0] : { avatar, username: [...users, me].map(user => user.username).join(", ") }
               return (
                 <Link key={id} to={`/channels/@me/${id}`} className={style.link}>
-                  <User avatar={user?.avatar} username={user?.username} status={user?.status} />
+                  <div className={style.wrapper}>
+                    <User avatar={user.avatar} username={user.username} status={user.status} active={id === params.conversation} />
+                  </div>
                 </Link>
               )
             })
           }
         </div>
       </div>
+      {
+        isOpen && <CreateConversationForm friends={friends.filter(f => f.relation === "Friend")} handleClose={toggleModal} />
+      }
     </div>
   )
 }
