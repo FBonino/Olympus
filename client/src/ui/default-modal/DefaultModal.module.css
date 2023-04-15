@@ -4,8 +4,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(32, 32, 32, 0.884);
-  filter: blur(4px);
+  z-index: 9999;
 }
 
 .container {
@@ -14,21 +13,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: absolute;
   background-color: var(--bg-color);
   cursor: auto;
-  border-radius: 0.5rem;
-}
-
-.close {
-  position: absolute;
-  top: 6%;
-  right: 4%;
-  border: none;
-  background-color: inherit;
-  color: var(--secondary-color);
-  cursor: pointer;
+  border-radius: 0.3rem;
+  border: 1px solid var(--bg-dark);
+  z-index: 10000;
+  box-shadow: 0 0 0.5rem var(--bg-dark);
 }
