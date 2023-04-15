@@ -2,8 +2,17 @@ import React from "react";
 import style from "./Friend.module.css";
 import { TbMessageCircle2Filled, TbDotsVertical } from "react-icons/tb";
 import mapStatusColor from "../../../helpers/mapStatusColor";
+import { useNavigate } from "react-router-dom";
+import { conversationAPI } from "../../../apis/conversation.api";
 
 const Friend = ({ friend }) => {
+  const navigate = useNavigate()
+
+  const onCreateConversation = async () => {
+    const conversation = await conversationAPI.create([friend.id])
+    navigate(`/channels/@me/${conversation.id}`)
+  }
+
   return (
     <div className={style.container}>
       <div className={style.user}>
@@ -17,8 +26,8 @@ const Friend = ({ friend }) => {
         </div>
       </div>
       <div className={style.options}>
-        <TbMessageCircle2Filled className={style.icon} size={20} />
-        <TbDotsVertical className={style.icon} size={20} />
+        <span className={style.option} onClick={onCreateConversation}> <TbMessageCircle2Filled className={style.icon} size={20} /> </span>
+        <span className={style.option}> <TbDotsVertical className={style.icon} size={20} /> </span>
       </div>
     </div>
   )

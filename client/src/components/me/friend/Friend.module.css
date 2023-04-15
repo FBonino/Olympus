@@ -90,6 +90,6 @@
   color: var(--text-color);
 }
 
-.icon+.icon {
-  margin-left: 1rem;
+.option+.option {
+  margin-left: 0.6rem;
 }
