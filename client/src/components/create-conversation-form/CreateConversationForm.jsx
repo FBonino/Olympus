@@ -3,8 +3,9 @@ import style from "./CreateConversationForm.module.css";
 import DefaultModal from "../../ui/default-modal/DefaultModal";
 import { conversationAPI } from "../../apis/conversation.api";
 import { useNavigate } from "react-router-dom";
+import DefaultAvatar from "../../ui/default-avatar/DefaultAvatar";
 
-const CreateConversationForm = ({ friends, handleClose }) => {
+const CreateConversationForm = ({ friends, handleClose, coords }) => {
   const navigate = useNavigate()
   const [input, setInput] = useState("")
   const [users, setUsers] = useState([])
@@ -16,13 +17,12 @@ const CreateConversationForm = ({ friends, handleClose }) => {
     setFriendsList(list)
   }
 
-  const updateUsers = ({ target }) => {
-    const remove = users.includes(target.value)
-
+  const updateUsers = id => {
+    const remove = users.includes(id)
     if (remove) {
-      setUsers(users.filter(u => u !== target.value))
+      setUsers(users.filter(u => u !== id))
     } else {
-      setUsers(users.concat(target.value))
+      setUsers(users.concat(id))
     }
   }
 
@@ -34,7 +34,7 @@ const CreateConversationForm = ({ friends, handleClose }) => {
   }
 
   return (
-    <DefaultModal handleClose={handleClose}>
+    <DefaultModal handleClose={handleClose} x={coords.x} y={coords.y}>
       <div className={style.container}>
         <span className={style.title}> Select Friends </span>
         <span className={style.subtitle}> You can add {9 - users.length} more friends </span>
@@ -43,9 +43,12 @@ const CreateConversationForm = ({ friends, handleClose }) => {
           <div className={style.friends}>
             {
               friendsList.map(({ user }) => (
-                <div key={user.id}>
-                  <span> {user.username} </span>
-                  <input type="checkbox" value={user.id} onChange={updateUsers} checked={users.includes(user.id)} />
+                <div className={style.user} key={user.id} onClick={() => updateUsers(user.id)}>
+                  <div className={style.info}>
+                    <DefaultAvatar avatar={user.avatar} status={user.status} />
+                    <span className={style.username}> {user.username} </span>
+                  </div>
+                  <input className={style.checkbox} type="checkbox" readOnly checked={users.includes(user.id)} />
                 </div>
               ))
             }

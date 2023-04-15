@@ -22,13 +22,51 @@
   width: 25rem;
 }
 
+.user {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.35rem;
+  border-radius: 0.2rem;
+  cursor: pointer;
+}
+
+.user:hover {
+  background-color: var(--bg-hover);
+}
+
+.info {
+  display: flex;
+  align-items: center;
+}
+
+.username {
+  margin-left: 0.75rem;
+}
+
+.checkbox {
+  background-color: inherit;
+  border: 1px solid var(--text-darker);
+  cursor: pointer;
+  appearance: none;
+  height: 1.25rem;
+  width: 1.25rem;
+  border-radius: 0.25rem;
+}
+
+.checkbox:checked {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
 .input {
-  padding: 0.5rem;
+  padding: 0.6rem;
   margin: 1rem 0;
   background-color: var(--bg-darker);
   font-size: 15px;
   color: var(--text-color);
   border: none;
+  border-radius: 0.2rem;
 }
 
 .input:focus {
@@ -48,14 +86,14 @@
 }
 
 .submit {
-  padding: 0.5rem;
+  padding: 0.6rem;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--secondary-color);
   color: var(--text-color);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 550;
   border: none;
   outline: none;
   margin: 0.4rem;

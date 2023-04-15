@@ -1,0 +1,27 @@
+.container {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+}
+
+.status {
+  border-radius: 50%;
+  height: 9px;
+  width: 9px;
+  position: absolute;
+  bottom: -5%;
+  right: -5%;
+  border: 3px solid;
+  border-color: var(--bg-color);
+}
+
+.container:hover>.status {
+  border-color: var(--bg-hover);
+}

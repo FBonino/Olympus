@@ -10,8 +10,16 @@ const DirectMessages = ({ conversations }) => {
   const params = useParams()
   const [isOpen, setIsOpen] = useState(false)
   const { friends } = useSelector(state => state.user)
+  const [coords, setCoords] = useState({ x: 0, y: 0 })
 
-  const toggleModal = () => setIsOpen(!isOpen)
+  const openModal = e => {
+    setCoords({ x: e.pageX, y: e.pageY })
+    setIsOpen(true)
+  }
+
+  const closeModal = e => {
+    setIsOpen(false)
+  }
 
   return (
     <div className={style.container}>
@@ -21,7 +29,7 @@ const DirectMessages = ({ conversations }) => {
       <div className={style.subcontainer}>
         <div className={style.header}>
           <span className={style.title}> DIRECT MESSAGES </span>
-          <button className={style.newDM} onClick={() => setIsOpen(true)}> <HiPlusSm size={20} /> </button>
+          <button className={style.newDM} onClick={openModal}> <HiPlusSm size={20} /> </button>
         </div>
         <div className={style.dms}>
           {
@@ -39,7 +47,7 @@ const DirectMessages = ({ conversations }) => {
         </div>
       </div>
       {
-        isOpen && <CreateConversationForm friends={friends.filter(f => f.relation === "Friend")} handleClose={toggleModal} />
+        isOpen && <CreateConversationForm friends={friends.filter(f => f.relation === "Friend")} handleClose={closeModal} coords={coords} />
       }
     </div>
   )

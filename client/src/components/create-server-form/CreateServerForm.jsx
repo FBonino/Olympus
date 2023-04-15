@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import DefaultModal from "../../ui/default-modal/DefaultModal";
 import style from "./CreateServerForm.module.css";
 import DefaultAlert from "../../ui/default-alert/DefaultAlert";
 import { userAPI } from "../../apis/user.api";
 import { createServer } from "../../store/slices/server.slice";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import DefaultCenteredModal from "../../ui/default-centered-modal/DefaultCenteredModal";
 
 const CreateServerForm = ({ handleClose }) => {
   const dispatch = useDispatch()
@@ -37,7 +37,7 @@ const CreateServerForm = ({ handleClose }) => {
   useEffect(() => () => setInput({ name: `${username}'s server`, avatar: "" }), [username]);
 
   return (
-    <DefaultModal handleClose={handleClose}>
+    <DefaultCenteredModal handleClose={handleClose}>
       <div className={style.container}>
         <h3> Create a server </h3>
         <h4> Your server is where you and your friends hang out. Make yours and start talking. </h4>
@@ -59,7 +59,7 @@ const CreateServerForm = ({ handleClose }) => {
           <input type="submit" className={style.submit} value="Create" />
         </form>
       </div>
-    </DefaultModal>
+    </DefaultCenteredModal>
   )
 }
 
